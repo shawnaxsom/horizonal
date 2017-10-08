@@ -8,13 +8,7 @@ import mockForecast from "./mock-forecast.json";
 const getDayName = daysFromToday =>
   moment().add(daysFromToday, "days").format("dddd");
 
-const DayForecast = ({
-  day,
-  daysFromToday,
-  maximumHigh,
-  averageHigh,
-  averagePop,
-}) => {
+const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
   const dayOfWeek = getDayName(daysFromToday);
   return (
     <div style={{width: `${1024 / 7}px`}}>
@@ -112,17 +106,17 @@ class App extends Component {
 
     this.state = {
       forecast: mockForecast,
-      latitude: 40.042815,
-      longitude: -86.127489,
+      address: "Indianapolis, IN",
     };
   }
 
   getForecast = () => {
     fetch(
-      "https://xtzt76pisd.execute-api.us-east-1.amazonaws.com/dev/forecast",
+      `https://xtzt76pisd.execute-api.us-east-1.amazonaws.com/dev/forecast?address=${encodeURI(
+        this.state.address,
+      )}`,
     ).then(response =>
       response.json().then(data => {
-        console.warn("ZZZZ App.js", "data", data);
         this.setState({forecast: data});
       }),
     );
@@ -144,8 +138,6 @@ class App extends Component {
           -999,
         );
 
-    console.warn("ZZZZ App.js", "maximumHigh", maximumHigh);
-
     const averagePop = !dailyData
       ? 0
       : dailyData.reduce((prev, data) => prev + data.precipProbability, 0) /
@@ -154,19 +146,13 @@ class App extends Component {
     return (
       <div className="App">
         <div style={{display: "flex", margin: 10}}>
-          <div style={{marginLeft: 20, marginRight: 10}}>Latitude:</div>
+          <div style={{marginLeft: 20, marginRight: 10}}>Address:</div>
           <input
             type="text"
-            value={this.state.latitude}
-            onChange={event => this.setState({latitude: event.target.value})}
+            value={this.state.address}
+            onChange={event => this.setState({address: event.target.value})}
           />
 
-          <div style={{marginLeft: 20, marginRight: 10}}>Longitude:</div>
-          <input
-            type="text"
-            value={this.state.longitude}
-            onChange={event => this.setState({longitude: event.target.value})}
-          />
           <button
             onClick={this.getForecast}
             style={{marginLeft: 20, marginRight: 10}}

@@ -22,6 +22,7 @@ provider:
   runtime: nodejs6.10
   environment:
     DARKSKY_SECRET_ACCESS_KEY: ${file(./secrets.yml):darkskySecretAccessKey}
+    GOOGLE_MAPS_SECRET_ACCESS_KEY: ${file(./secrets.yml):googleMapsSecretAccessKey}
 
 # you can overwrite defaults here
 #  stage: dev

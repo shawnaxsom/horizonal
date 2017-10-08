@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google/maps": "^0.4.3",
     "forecast.io": "0.0.11"
   }
 }

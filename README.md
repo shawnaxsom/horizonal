@@ -5,6 +5,7 @@
 * npm install -g serverless
 * cd ./lambda
 * echo "darkskySecretAccessKey: YOUR_DARKSKY_SECRET_ACCESS_KEY" > secrets.yml
+* echo "googleMapsSecretAccessKey: YOUR_GOOGLE_MAPS_SECRET_ACCESS_KEY" >> secrets.yml
 * serverless deploy
 
 * cd ..
