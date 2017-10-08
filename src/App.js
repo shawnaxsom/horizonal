@@ -2,11 +2,54 @@ import React, {Component} from "react";
 import moment from "moment";
 
 import "./App.css";
+
+import "rc-slider/assets/index.css";
+import Slider from "rc-slider";
+
 import "./css/weather-icons.min.css";
 import mockForecast from "./mock-forecast.json";
 
+import groupBy from "lodash/groupBy";
+
 const getDayName = daysFromToday =>
   moment().add(daysFromToday, "days").format("dddd");
+
+const localTimeOffset = new Date().getTimezoneOffset() / 60;
+
+const within24Hours = hour => {
+  if (hour > 24) {
+    return hour % 24;
+  } else if (hour < 0) {
+    return hour + 24;
+  }
+
+  return hour;
+};
+
+const fromLocalTime = hour => {
+  if (hour === undefined || hour === null) {
+    return hour;
+  }
+
+  return hour + localTimeOffset;
+};
+
+const toLocalTime = hour => {
+  if (hour === undefined || hour === null) {
+    return hour;
+  }
+
+  return hour - localTimeOffset;
+};
+
+const temperatureOf = data => {
+  if (!data) {
+    return null;
+  }
+  return data.temperatureHigh === undefined
+    ? data.temperature
+    : data.temperatureHigh;
+};
 
 const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
   const dayOfWeek = getDayName(daysFromToday);
@@ -62,8 +105,8 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
         style={{
           position: "relative",
           padding: 0,
-          height: `${300 - (maximumHigh - day.temperatureHigh) * 7}px`,
-          paddingTop: `${(maximumHigh - day.temperatureHigh) * 7}px`,
+          height: `${300 - (maximumHigh - temperatureOf(day)) * 7}px`,
+          paddingTop: `${(maximumHigh - temperatureOf(day)) * 7}px`,
           ...(dayOfWeek === "Saturday" || dayOfWeek === "Sunday"
             ? {background: "#fafafa"}
             : {}),
@@ -77,15 +120,12 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
       >
         <div
           style={
-            day.temperatureHigh > averageHigh
+            temperatureOf(day) > averageHigh
               ? {background: "#ffcccc"}
               : {background: "#ccccff"}
           }
         >
-          High: {Math.round(day.temperatureHigh, 0)}
-        </div>
-        <div>
-          Low: {Math.round(day.temperatureLow, 0)}
+          {Math.round(temperatureOf(day), 0)}
         </div>
         {day.precipProbability > 0.2 &&
           <div
@@ -133,18 +173,66 @@ class App extends Component {
   };
 
   render() {
-    const dailyData = this.state.forecast
-      ? this.state.forecast.daily.data
-      : null;
+    let dailyData = null;
+
+    if (this.state.forecast) {
+      if (!this.state.hourFilter) {
+        console.warn("ZZZZ App.js", "Using dailies");
+        dailyData = this.state.forecast.daily.data;
+      } else {
+        console.warn(
+          "ZZZZ App.js",
+          "this.state.hourFilter",
+          this.state.hourFilter,
+        );
+        const hourlyData = this.state.forecast.hourly.data.map(hour => ({
+          time: toLocalTime(hour.time),
+          ...hour,
+        }));
+
+        const hourlyByDay = Object.values(
+          groupBy(hourlyData, hour => {
+            return Math.floor(hour.time / (60 * 60 * 24));
+          }),
+        );
+
+        console.warn("ZZZZ App.js", "hourlyByDay", hourlyByDay[3]);
+
+        dailyData = hourlyByDay.map(day => {
+          return day.filter(hour => {
+            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+            d.setUTCSeconds(fromLocalTime(hour.time / 60 / 60) * 60 * 60);
+            return d.getHours().toString() === this.state.hourFilter.toString();
+          });
+        });
+
+        // Issue is before this
+        console.warn("ZZZZ App.js", "dailyData 1", dailyData[3][0]);
+
+        // If current day is past the hour, it is probably undefined, get the high instead
+        dailyData = dailyData.map(
+          (day, index) =>
+            day === undefined || day.length === 0
+              ? [this.state.forecast.daily.data[index]]
+              : day,
+        );
+
+        dailyData = dailyData.map(dayHours => dayHours[0]);
+
+        console.warn("ZZZZ App.js", "dailyData 2", dailyData[3]);
+        console.warn("ZZZZ App.js", "dailyDataTime", dailyData[3].time);
+      }
+    }
+
     const averageHigh = !dailyData
       ? 0
-      : dailyData.reduce((prev, data) => prev + data.temperatureHigh, 0) /
+      : dailyData.reduce((prev, data) => prev + temperatureOf(data), 0) /
         dailyData.length;
 
     const maximumHigh = !dailyData
       ? 0
       : dailyData.reduce(
-          (prev, data) => Math.max(prev, data.temperatureHigh),
+          (prev, data) => Math.max(prev, temperatureOf(data)),
           -999,
         );
 
@@ -163,6 +251,26 @@ class App extends Component {
             onChange={event => this.setState({address: event.target.value})}
           />
 
+          <Slider
+            min={0}
+            max={24}
+            marks={{
+              0: "ALL",
+              4: "4 am",
+              8: "8 am",
+              10: "10 am",
+              12: "NOON",
+              14: "2 pm",
+              17: "5 pm",
+              19: "7 pm",
+              21: "9 pm",
+              24: "12 pm",
+            }}
+            style={{margin: "0 20px"}}
+            value={this.state.hourFilter}
+            onChange={value => this.setState({hourFilter: value})}
+          />
+
           <button
             onClick={this.getForecast}
             style={{marginLeft: 20, marginRight: 10}}
@@ -173,7 +281,7 @@ class App extends Component {
 
         <div style={{display: "flex"}}>
           {this.state.forecast &&
-            this.state.forecast.daily.data.map((day, key) =>
+            dailyData.map((day, key) =>
               <DayForecast
                 key={key}
                 day={day}

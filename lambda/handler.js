@@ -32,13 +32,16 @@ module.exports.hello = function(event, context, callback) {
     }
     const latitude = results.geometry.location.lat;
     const longitude = results.geometry.location.lng;
-    darksky.get(latitude, longitude, function(err, res, data) {
-      const response = {
+    const options = {
+      exclude: "minutely,flags,alerts",
+      extend: "hourly",
+    };
+
+    darksky.get(latitude, longitude, options, function(err, res, data) {
+      callback(null, {
         statusCode: 200,
         body: JSON.stringify(data),
-      };
-
-      callback(null, response);
+      });
     });
   });
 };
