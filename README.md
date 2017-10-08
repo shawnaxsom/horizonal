@@ -1,8 +1,9 @@
 # Horizonal
 
 ## Installation
-cd ./lambda
 npm install -g serverless
+cd ./lambda
+echo "darkskySecretAccessKey: YOUR_DARKSKY_SECRET_ACCESS_KEY" > secrets.yml
 serverless deploy
 
 cd ..
