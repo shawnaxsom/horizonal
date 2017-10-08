@@ -14,14 +14,14 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
     <div style={{width: `${1024 / 7}px`}}>
       <div
         style={{
-          height: `${parseInt(1.0 * 90, 10)}px`,
+          height: `${parseInt(1.0 * 150, 10)}px`,
           background: "#fafafa",
         }}
       >
         <div
           style={{
             borderTop: `${parseInt(
-              Math.max(day.cloudCover * 90, 1),
+              Math.max(day.cloudCover * 150, 1),
               10,
             )}px solid ${day.cloudCover < 0.2 ? "#ffff00" : "#000000"}`,
             background: day.cloudCover < 0.2 ? "#ffff00" : "#000000",
@@ -72,10 +72,10 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
               : {background: "#ccccff"}
           }
         >
-          High: {day.temperatureHigh}
+          High: {Math.round(day.temperatureHigh, 0)}
         </div>
         <div>
-          Low: {day.temperatureLow}
+          Low: {Math.round(day.temperatureLow, 0)}
         </div>
         {day.precipProbability > 0.2 &&
           <div
@@ -85,9 +85,9 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
               borderLeft: 0,
               borderRight: 0,
               borderBottom: 0,
-              borderTop: `${day.precipProbability * 120 - 10}px solid #ccccff`,
+              borderTop: `${day.precipProbability * 120 - 10}px solid #aaccff`,
               bottom: 0,
-              background: "#ccccff",
+              background: "#aaccff",
             }}
           >
             <i className="wi wi-rain" />
@@ -106,7 +106,7 @@ class App extends Component {
 
     this.state = {
       forecast: mockForecast,
-      address: "Indianapolis, IN",
+      address: "Westfield, IN",
     };
   }
 
