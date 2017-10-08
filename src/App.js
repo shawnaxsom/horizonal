@@ -11,7 +11,7 @@ const getDayName = daysFromToday =>
 const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
   const dayOfWeek = getDayName(daysFromToday);
   return (
-    <div style={{width: `${1024 / 7}px`}}>
+    <div style={{flexGrow: 1}}>
       <div
         style={{
           height: `${parseInt(1.0 * 150, 10)}px`,
@@ -24,12 +24,22 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
               Math.max(day.cloudCover * 150, 1),
               10,
             )}px solid ${day.cloudCover < 0.2 ? "#ffff00" : "#000000"}`,
+            padding: 4,
             background: day.cloudCover < 0.2 ? "#ffff00" : "#000000",
           }}
         >
           {day.cloudCover < 0.2
             ? <i style={{color: "black"}} className="wi wi-day-sunny" />
             : <i style={{color: "white"}} className="wi wi-cloud" />}
+          <div
+            style={{
+              display: "inline-block",
+              marginLeft: 10,
+              ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
+            }}
+          >
+            {Math.round(day.cloudCover * 100, 0)}%
+          </div>
         </div>
       </div>
       <div
@@ -145,7 +155,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div style={{display: "flex", margin: 10}}>
+        <div style={{display: "flex", padding: 10, background: "#fff900"}}>
           <div style={{marginLeft: 20, marginRight: 10}}>Address:</div>
           <input
             type="text"
@@ -163,10 +173,11 @@ class App extends Component {
 
         <div style={{display: "flex"}}>
           {this.state.forecast &&
-            this.state.forecast.daily.data.map((day, daysFromToday) =>
+            this.state.forecast.daily.data.map((day, key) =>
               <DayForecast
+                key={key}
                 day={day}
-                daysFromToday={daysFromToday}
+                daysFromToday={key}
                 maximumHigh={maximumHigh}
                 averageHigh={averageHigh}
                 averagePop={averagePop}
