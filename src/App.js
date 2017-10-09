@@ -15,6 +15,7 @@ const getDayName = daysFromToday =>
   moment().add(daysFromToday, "days").format("dddd");
 
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
+// const localTimeOffset = 0;
 
 const within24Hours = hour => {
   if (hour > 24) {
@@ -127,7 +128,7 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
         >
           {Math.round(temperatureOf(day), 0)}
         </div>
-        {day.precipProbability > 0.2 &&
+        {day.precipProbability > 0.1 &&
           <div
             style={{
               position: "absolute",
@@ -177,37 +178,42 @@ class App extends Component {
 
     if (this.state.forecast) {
       if (!this.state.hourFilter) {
-        console.warn("ZZZZ App.js", "Using dailies");
         dailyData = this.state.forecast.daily.data;
       } else {
-        console.warn(
-          "ZZZZ App.js",
-          "this.state.hourFilter",
-          this.state.hourFilter,
-        );
         const hourlyData = this.state.forecast.hourly.data.map(hour => ({
-          time: toLocalTime(hour.time),
+          time: hour.time,
           ...hour,
         }));
 
-        const hourlyByDay = Object.values(
+        let hourlyByDay = Object.values(
           groupBy(hourlyData, hour => {
-            return Math.floor(hour.time / (60 * 60 * 24));
+            const hourNumber = Math.floor(hour.time / (60 * 60));
+            return Math.floor(toLocalTime(hourNumber) / 24);
           }),
         );
 
-        console.warn("ZZZZ App.js", "hourlyByDay", hourlyByDay[3]);
+        hourlyByDay = hourlyByDay.map(day =>
+          day.map(hour => {
+            const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+            d.setUTCSeconds(hour.time / 60 / 60 * 60 * 60);
+            const dateNumber = d.getDate();
+            const hourNumber = d.getHours();
+            return {
+              text: moment.unix(hour.time).toString(),
+              dateNumber,
+              hourNumber,
+              ...hour,
+            };
+          }),
+        );
 
         dailyData = hourlyByDay.map(day => {
           return day.filter(hour => {
-            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-            d.setUTCSeconds(fromLocalTime(hour.time / 60 / 60) * 60 * 60);
-            return d.getHours().toString() === this.state.hourFilter.toString();
+            return (
+              hour.hourNumber.toString() === this.state.hourFilter.toString()
+            );
           });
         });
-
-        // Issue is before this
-        console.warn("ZZZZ App.js", "dailyData 1", dailyData[3][0]);
 
         // If current day is past the hour, it is probably undefined, get the high instead
         dailyData = dailyData.map(
@@ -219,8 +225,7 @@ class App extends Component {
 
         dailyData = dailyData.map(dayHours => dayHours[0]);
 
-        console.warn("ZZZZ App.js", "dailyData 2", dailyData[3]);
-        console.warn("ZZZZ App.js", "dailyDataTime", dailyData[3].time);
+        dailyData = dailyData.filter(dayHours => dayHours);
       }
     }
 
