@@ -52,100 +52,121 @@ const temperatureOf = data => {
     : data.temperatureHigh;
 };
 
+const CloudCover = ({day}) =>
+  <div
+    style={{
+      height: `${parseInt(1.0 * 150, 10) + 4 + 4 + 18}px`,
+      background: "#fafafa",
+    }}
+  >
+    <div
+      style={{
+        borderTop: `${parseInt(
+          Math.max(day.cloudCover * 150, 1),
+          10,
+        )}px solid ${day.cloudCover < 0.2 ? "#ffff00" : "#000000"}`,
+        padding: 4,
+        background: day.cloudCover < 0.2 ? "#ffff00" : "#000000",
+      }}
+    >
+      {day.cloudCover < 0.2
+        ? <i style={{color: "black"}} className="wi wi-day-sunny" />
+        : <i style={{color: "white"}} className="wi wi-cloud" />}
+      <div
+        style={{
+          display: "inline-block",
+          marginLeft: 10,
+          ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
+        }}
+      >
+        {Math.round(day.cloudCover * 100, 0)}%
+      </div>
+    </div>
+  </div>;
+
+const DayNameHeader = ({day, dayOfWeek, maximumHigh}) =>
+  <div
+    style={{
+      border: "thin solid black",
+      // ...(dayOfWeek === "Saturday" || dayOfWeek === "Sunday"
+      //   ? {
+      //       color: "white",
+      //       background: "black",
+      //     }
+      //   : {
+      //       color: "black",
+      //       background: "white",
+      //     }),
+      ...(maximumHigh - temperatureOf(day) < 3
+        ? {color: "black", background: "#ffcccc"}
+        : {}),
+      ...(maximumHigh - temperatureOf(day) > 10 ? {background: "#aaffff"} : {}),
+    }}
+  >
+    {dayOfWeek}
+  </div>;
+
+const Temperature = ({averageHigh, day}) =>
+  <div
+    style={
+      temperatureOf(day) > averageHigh
+        ? {background: "#ffcccc"}
+        : {background: "#ccccff"}
+    }
+  >
+    {Math.round(temperatureOf(day), 0)}
+  </div>;
+
+const Precipitation = ({day}) =>
+  day.precipProbability > 0.1 &&
+  <div
+    style={{
+      position: "absolute",
+      width: "100%",
+      borderLeft: 0,
+      borderRight: 0,
+      borderBottom: 0,
+      borderTop: `${day.precipProbability * 120 - 10}px solid #aaccff`,
+      bottom: 0,
+      background: "#aaccff",
+    }}
+  >
+    <i className="wi wi-rain" />
+    <div style={{display: "inline-block", marginLeft: 10}}>
+      {Math.round(day.precipProbability * 100, 0)}%
+    </div>
+  </div>;
+
 const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
+  const dayPanelStyle = {
+    position: "relative",
+    padding: 0,
+
+    height: `${300 - (maximumHigh - temperatureOf(day)) * 7}px`,
+    paddingTop: `${(maximumHigh - temperatureOf(day)) * 7}px`,
+    ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
+      ? {background: "#ffffcc"}
+      : {}),
+    ...(day.cloudCover > 0.5 ? {background: "#f0f0f0"} : {}),
+    ...(day.precipProbability > 0.5 ? {background: "#daeaff"} : {}),
+    ...(dayOfWeek === "Saturday" ? {borderLeft: "2px solid #000000"} : {}),
+    ...(dayOfWeek === "Sunday" ? {borderRight: "2px solid #000000"} : {}),
+  };
+
   const dayOfWeek = getDayName(daysFromToday);
+
   return (
     <div style={{flexGrow: 1}}>
-      <div
-        style={{
-          height: `${parseInt(1.0 * 150, 10)}px`,
-          background: "#fafafa",
-        }}
-      >
-        <div
-          style={{
-            borderTop: `${parseInt(
-              Math.max(day.cloudCover * 150, 1),
-              10,
-            )}px solid ${day.cloudCover < 0.2 ? "#ffff00" : "#000000"}`,
-            padding: 4,
-            background: day.cloudCover < 0.2 ? "#ffff00" : "#000000",
-          }}
-        >
-          {day.cloudCover < 0.2
-            ? <i style={{color: "black"}} className="wi wi-day-sunny" />
-            : <i style={{color: "white"}} className="wi wi-cloud" />}
-          <div
-            style={{
-              display: "inline-block",
-              marginLeft: 10,
-              ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
-            }}
-          >
-            {Math.round(day.cloudCover * 100, 0)}%
-          </div>
-        </div>
-      </div>
-      <div
-        style={{
-          border: "thin solid black",
-          ...(dayOfWeek === "Saturday" || dayOfWeek === "Sunday"
-            ? {
-                color: "white",
-                background: "black",
-              }
-            : {
-                color: "black",
-                background: "white",
-              }),
-        }}
-      >
-        {dayOfWeek}
-      </div>
-      <div
-        style={{
-          position: "relative",
-          padding: 0,
-          height: `${300 - (maximumHigh - temperatureOf(day)) * 7}px`,
-          paddingTop: `${(maximumHigh - temperatureOf(day)) * 7}px`,
-          ...(dayOfWeek === "Saturday" || dayOfWeek === "Sunday"
-            ? {background: "#fafafa"}
-            : {}),
-          ...(dayOfWeek === "Saturday"
-            ? {borderLeft: "thin solid #cccccc"}
-            : {}),
-          ...(dayOfWeek === "Sunday"
-            ? {borderRight: "thin solid #cccccc"}
-            : {}),
-        }}
-      >
-        <div
-          style={
-            temperatureOf(day) > averageHigh
-              ? {background: "#ffcccc"}
-              : {background: "#ccccff"}
-          }
-        >
-          {Math.round(temperatureOf(day), 0)}
-        </div>
-        {day.precipProbability > 0.1 &&
-          <div
-            style={{
-              position: "absolute",
-              width: "100%",
-              borderLeft: 0,
-              borderRight: 0,
-              borderBottom: 0,
-              borderTop: `${day.precipProbability * 120 - 10}px solid #aaccff`,
-              bottom: 0,
-              background: "#aaccff",
-            }}
-          >
-            <i className="wi wi-rain" />
-            <div style={{display: "inline-block", marginLeft: 10}}>
-              {Math.round(day.precipProbability * 100, 0)}%
-            </div>
-          </div>}
+      <CloudCover day={day} />
+
+      <DayNameHeader
+        day={day}
+        dayOfWeek={dayOfWeek}
+        maximumHigh={maximumHigh}
+      />
+      <div style={dayPanelStyle}>
+        <Temperature averageHigh={averageHigh} day={day} />
+        <Precipitation day={day} />
       </div>
     </div>
   );
@@ -206,6 +227,7 @@ class App extends Component {
             };
           }),
         );
+        console.warn("ZZZZ App.js", "hourlyByDay", hourlyByDay);
 
         dailyData = hourlyByDay.map(day => {
           return day.filter(hour => {
@@ -224,6 +246,8 @@ class App extends Component {
         );
 
         dailyData = dailyData.map(dayHours => dayHours[0]);
+
+        console.warn("ZZZZ App.js", "dailyData", dailyData);
 
         dailyData = dailyData.filter(dayHours => dayHours);
       }
