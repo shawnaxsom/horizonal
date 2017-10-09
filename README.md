@@ -12,6 +12,30 @@
 * npm install
 * npm start
 
+[Unit]
+Description=My Miscellaneous Service
+After=network.target
+
+## Systemd
+/etc/systemd/system/horizonal.service
+sudo service horizonal start
+
+```
+[Unit]
+Description=Horizonal
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/dev/horizonal/
+ExecStart=/usr/local/bin/npm start
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ## Created with
 
 * create-react-app sunnyio
