@@ -1,39 +1,20 @@
 import React, {Component} from "react";
-import moment from "moment";
-
-import "./App.css";
 
 import "rc-slider/assets/index.css";
 import Slider from "rc-slider";
-
-import "./css/weather-icons.min.css";
-import mockForecast from "./mock-forecast.json";
-
 import groupBy from "lodash/groupBy";
+import moment from "moment";
 
-const getDayName = daysFromToday =>
-  moment().add(daysFromToday, "days").format("dddd");
+import DayForecast from "components/day-forecast";
+
+import temperatureOf from "utils/temperature-of";
+
+import "./App.css";
+import "./css/weather-icons.min.css";
+// import mockForecast from "./mock-forecast.json";
 
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
 // const localTimeOffset = 0;
-
-const within24Hours = hour => {
-  if (hour > 24) {
-    return hour % 24;
-  } else if (hour < 0) {
-    return hour + 24;
-  }
-
-  return hour;
-};
-
-const fromLocalTime = hour => {
-  if (hour === undefined || hour === null) {
-    return hour;
-  }
-
-  return hour + localTimeOffset;
-};
 
 const toLocalTime = hour => {
   if (hour === undefined || hour === null) {
@@ -43,148 +24,20 @@ const toLocalTime = hour => {
   return hour - localTimeOffset;
 };
 
-const temperatureOf = data => {
-  if (!data) {
-    return null;
-  }
-  return data.temperatureHigh === undefined
-    ? data.temperature
-    : data.temperatureHigh;
-};
-
-const CloudCover = ({day}) =>
-  <div
-    style={{
-      height: `${parseInt(1.0 * 150, 10) + 4 + 4 + 18}px`,
-      background: "#fafafa",
-    }}
-  >
-    <div
-      style={{
-        borderTop: `${parseInt(
-          Math.max(day.cloudCover * 150, 1),
-          10,
-        )}px solid ${day.cloudCover < 0.2 ? "#ffff00" : "#000000"}`,
-        padding: 4,
-        background: day.cloudCover < 0.2 ? "#ffff00" : "#000000",
-      }}
-    >
-      {day.cloudCover < 0.2
-        ? <i style={{color: "black"}} className="wi wi-day-sunny" />
-        : <i style={{color: "white"}} className="wi wi-cloud" />}
-      <div
-        style={{
-          display: "inline-block",
-          marginLeft: 10,
-          ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
-        }}
-      >
-        {Math.round(day.cloudCover * 100, 0)}%
-      </div>
-    </div>
-  </div>;
-
-const DayNameHeader = ({day, dayOfWeek, maximumHigh}) =>
-  <div
-    style={{
-      border: "thin solid black",
-      // ...(dayOfWeek === "Saturday" || dayOfWeek === "Sunday"
-      //   ? {
-      //       color: "white",
-      //       background: "black",
-      //     }
-      //   : {
-      //       color: "black",
-      //       background: "white",
-      //     }),
-      ...(maximumHigh - temperatureOf(day) < 3
-        ? {color: "black", background: "#ffcccc"}
-        : {}),
-      ...(maximumHigh - temperatureOf(day) > 10 ? {background: "#aaffff"} : {}),
-    }}
-  >
-    {dayOfWeek}
-  </div>;
-
-const Temperature = ({averageHigh, day}) =>
-  <div
-    style={
-      temperatureOf(day) > averageHigh
-        ? {background: "#ffcccc"}
-        : {background: "#ccccff"}
-    }
-  >
-    {Math.round(temperatureOf(day), 0)}
-  </div>;
-
-const Precipitation = ({day}) =>
-  day.precipProbability > 0.1 &&
-  <div
-    style={{
-      position: "absolute",
-      width: "100%",
-      borderLeft: 0,
-      borderRight: 0,
-      borderBottom: 0,
-      borderTop: `${day.precipProbability * 120 - 10}px solid #aaccff`,
-      bottom: 0,
-      background: "#aaccff",
-    }}
-  >
-    <i className="wi wi-rain" />
-    <div style={{display: "inline-block", marginLeft: 10}}>
-      {Math.round(day.precipProbability * 100, 0)}%
-    </div>
-  </div>;
-
-const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
-  const dayPanelStyle = {
-    position: "relative",
-    padding: 0,
-
-    height: `${300 - (maximumHigh - temperatureOf(day)) * 7}px`,
-    paddingTop: `${(maximumHigh - temperatureOf(day)) * 7}px`,
-    ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
-      ? {background: "#ffffcc"}
-      : {}),
-    ...(day.cloudCover > 0.5 ? {background: "#f0f0f0"} : {}),
-    ...(day.precipProbability > 0.5 ? {background: "#daeaff"} : {}),
-    ...(dayOfWeek === "Saturday" ? {borderLeft: "2px solid #000000"} : {}),
-    ...(dayOfWeek === "Sunday" ? {borderRight: "2px solid #000000"} : {}),
-  };
-
-  const dayOfWeek = getDayName(daysFromToday);
-
-  return (
-    <div style={{flexGrow: 1}}>
-      <CloudCover day={day} />
-
-      <DayNameHeader
-        day={day}
-        dayOfWeek={dayOfWeek}
-        maximumHigh={maximumHigh}
-      />
-      <div style={dayPanelStyle}>
-        <Temperature averageHigh={averageHigh} day={day} />
-        <Precipitation day={day} />
-      </div>
-    </div>
-  );
-};
-
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      forecast: mockForecast,
+      forecast: null,
       address: "Westfield, IN",
     };
   }
 
   getForecast = () => {
+    // The fetch will get proxied to the proxy location in Package.json, avoiding CORS errors
     fetch(
-      `https://xtzt76pisd.execute-api.us-east-1.amazonaws.com/dev/forecast?address=${encodeURI(
+      `${window.location.href}/dev/forecast?address=${encodeURI(
         this.state.address,
       )}`,
     ).then(response =>
@@ -280,6 +133,13 @@ class App extends Component {
             onChange={event => this.setState({address: event.target.value})}
           />
 
+          <button
+            onClick={this.getForecast}
+            style={{marginLeft: 20, marginRight: 10}}
+          >
+            Get Forecast
+          </button>
+
           <Slider
             min={0}
             max={24}
@@ -299,13 +159,6 @@ class App extends Component {
             value={this.state.hourFilter}
             onChange={value => this.setState({hourFilter: value})}
           />
-
-          <button
-            onClick={this.getForecast}
-            style={{marginLeft: 20, marginRight: 10}}
-          >
-            Get Forecast
-          </button>
         </div>
 
         <div style={{display: "flex"}}>
