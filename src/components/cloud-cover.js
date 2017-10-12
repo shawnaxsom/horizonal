@@ -10,7 +10,7 @@ const CloudCover = ({day}) =>
     <div
       style={{
         borderTop: `${parseInt(
-          Math.max(day.cloudCover * 150, 1),
+          Math.max(day.cloudCover * 120, 1),
           10,
         )}px solid ${day.cloudCover < 0.2 ? "#ffff00" : "#000000"}`,
         padding: 4,

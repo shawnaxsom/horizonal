@@ -9,9 +9,12 @@ import DayForecast from "components/day-forecast";
 
 import temperatureOf from "utils/temperature-of";
 
+import "bulma/css/bulma.css";
+import {Column, Columns, Box, Field, Control, Input, Button} from "bloomer";
+
 import "./App.css";
 import "./css/weather-icons.min.css";
-// import mockForecast from "./mock-forecast.json";
+import mockForecast from "./mock-forecast.json";
 
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
 // const localTimeOffset = 0;
@@ -29,7 +32,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      forecast: null,
+      forecast: mockForecast,
       address: "Westfield, IN",
     };
   }
@@ -124,44 +127,67 @@ class App extends Component {
         dailyData.length;
 
     return (
-      <div className="App">
-        <div style={{display: "flex", padding: 10, background: "#fff900"}}>
-          <div style={{marginLeft: 20, marginRight: 10}}>Address:</div>
-          <input
-            type="text"
-            value={this.state.address}
-            onChange={event => this.setState({address: event.target.value})}
-          />
+      <Columns className="App" style={{margin: 0, padding: 0}}>
+        <Column
+          style={{
+            position: "fixed",
+            width: "100vw",
+            top: 0,
+            left: 0,
+            right: 0,
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "visible",
+            padding: 10,
+            background: "#fff900",
+            height: 100,
+          }}
+        >
+          <Field hasAddons>
+            <Control>
+              <Input
+                placeholder="Westfield, IN"
+                value={this.state.address}
+                onChange={event => this.setState({address: event.target.value})}
+              />
+            </Control>
+            <Control>
+              <Button>Forecast</Button>
+            </Control>
+          </Field>
 
-          <button
-            onClick={this.getForecast}
-            style={{marginLeft: 20, marginRight: 10}}
-          >
-            Get Forecast
-          </button>
+          <div style={{width: "100%"}}>
+            <Slider
+              min={0}
+              max={24}
+              marks={{
+                0: "ALL",
+                4: "4",
+                8: "8",
+                10: "10",
+                12: "12",
+                14: "2",
+                17: "5",
+                19: "7",
+                21: "9",
+                24: "12",
+              }}
+              style={{height: 30, width: "unset", margin: "0 20px 20px"}}
+              value={this.state.hourFilter}
+              onChange={value => this.setState({hourFilter: value})}
+            />
+          </div>
+        </Column>
 
-          <Slider
-            min={0}
-            max={24}
-            marks={{
-              0: "ALL",
-              4: "4 am",
-              8: "8 am",
-              10: "10 am",
-              12: "NOON",
-              14: "2 pm",
-              17: "5 pm",
-              19: "7 pm",
-              21: "9 pm",
-              24: "12 pm",
-            }}
-            style={{margin: "0 20px"}}
-            value={this.state.hourFilter}
-            onChange={value => this.setState({hourFilter: value})}
-          />
-        </div>
-
-        <div style={{display: "flex"}}>
+        <Column
+          style={{
+            display: "flex",
+            margin: "80px 0 0 0",
+            overflow: "scroll",
+            padding: 0,
+            width: "100vw",
+          }}
+        >
           {this.state.forecast &&
             dailyData.map((day, key) =>
               <DayForecast
@@ -173,8 +199,8 @@ class App extends Component {
                 averagePop={averagePop}
               />,
             )}
-        </div>
-      </div>
+        </Column>
+      </Columns>
     );
   }
 }
