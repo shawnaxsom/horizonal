@@ -37,17 +37,18 @@ class App extends Component {
     };
   }
 
-  getForecast = () => {
+  getForecast = async () => {
+    this.setState({isLoading: true});
     // The fetch will get proxied to the proxy location in Package.json, avoiding CORS errors
-    fetch(
+    const response = await fetch(
       `${window.location.href}/dev/forecast?address=${encodeURI(
         this.state.address,
       )}`,
-    ).then(response =>
-      response.json().then(data => {
-        this.setState({forecast: data});
-      }),
     );
+
+    response.json().then(data => {
+      this.setState({forecast: data, isLoading: false});
+    });
   };
 
   render() {
@@ -152,7 +153,17 @@ class App extends Component {
               />
             </Control>
             <Control>
-              <Button>Forecast</Button>
+              <Button
+                isColor="info"
+                isLoading={this.state.isLoading}
+                render={props =>
+                  <Column
+                    onClick={this.getForecast}
+                    style={{cursor: "pointer", padding: 0, margin: 0}}
+                  >
+                    <span {...props}>Forecast</span>
+                  </Column>}
+              />
             </Control>
           </Field>
 
