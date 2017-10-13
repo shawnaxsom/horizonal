@@ -10,7 +10,7 @@ import DayForecast from "components/day-forecast";
 import temperatureOf from "utils/temperature-of";
 
 import "bulma/css/bulma.css";
-import {Column, Columns, Box, Field, Control, Input, Button} from "bloomer";
+import {Column, Columns, Field, Control, Input, Button} from "bloomer";
 
 import "./App.css";
 import "./css/weather-icons.min.css";

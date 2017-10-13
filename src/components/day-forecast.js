@@ -17,8 +17,7 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
   const dayPanelStyle = {
     position: "relative",
     padding: 0,
-
-    height: `${300 - (maximumHigh - temperatureOf(day)) * 7}px`,
+    height: "300px",
     paddingTop: `${(maximumHigh - temperatureOf(day)) * 7}px`,
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
       ? {background: "#ffffcc"}
