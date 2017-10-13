@@ -193,7 +193,7 @@ class App extends Component {
         <Column
           style={{
             display: "flex",
-            margin: "80px 0 0 0",
+            margin: "100px 0 0 0",
             overflow: "scroll",
             padding: 0,
             width: "100vw",
