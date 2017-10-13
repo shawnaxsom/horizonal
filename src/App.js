@@ -14,7 +14,7 @@ import {Column, Columns, Field, Control, Input, Button} from "bloomer";
 
 import "./App.css";
 import "./css/weather-icons.min.css";
-import mockForecast from "./mock-forecast.json";
+// import mockForecast from "./mock-forecast.json";
 
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
 // const localTimeOffset = 0;
@@ -32,7 +32,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      forecast: mockForecast,
+      forecast: {daily: {}},
       address: "Westfield, IN",
     };
   }
@@ -84,7 +84,6 @@ class App extends Component {
             };
           }),
         );
-        console.warn("ZZZZ App.js", "hourlyByDay", hourlyByDay);
 
         dailyData = hourlyByDay.map(day => {
           return day.filter(hour => {
@@ -200,6 +199,7 @@ class App extends Component {
           }}
         >
           {this.state.forecast &&
+            dailyData &&
             dailyData.map((day, key) =>
               <DayForecast
                 key={key}
