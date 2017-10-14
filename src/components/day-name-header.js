@@ -6,7 +6,7 @@ const DayNameHeader = ({day, dayOfWeek, maximumHigh}) =>
   <div
     style={{
       border: "thin solid black",
-      borderRadius: "0.3em 0 0 0",
+      borderRadius: "0.3em 0.3em 0 0",
       background: "#aaa",
       color: "white",
       padding: 4,
