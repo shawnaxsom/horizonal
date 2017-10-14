@@ -6,8 +6,8 @@ const Temperature = ({averageHigh, day}) =>
   <div
     style={
       temperatureOf(day) > averageHigh
-        ? {background: "#ffcccc"}
-        : {background: "#ccccff"}
+        ? {background: "#e20", color: "#fff"}
+        : {background: "#57f", color: "#fff"}
     }
   >
     {Math.round(temperatureOf(day), 0)}

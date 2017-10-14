@@ -1,0 +1,182 @@
+import React, {Component} from "react";
+
+import "rc-slider/assets/index.css";
+import groupBy from "lodash/groupBy";
+import moment from "moment";
+
+import DayForecast from "components/day-forecast";
+import Header from "components/header";
+
+import temperatureOf from "utils/temperature-of";
+
+import {Column, Columns} from "bloomer";
+
+import mockForecast from "mock-forecast.json";
+
+const localTimeOffset = new Date().getTimezoneOffset() / 60;
+// const localTimeOffset = 0;
+
+const toLocalTime = hour => {
+  if (hour === undefined || hour === null) {
+    return hour;
+  }
+
+  return hour - localTimeOffset;
+};
+
+class WeekView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      address: "Westfield, IN",
+      hourFilter: null,
+      forecast: mockForecast,
+    };
+  }
+
+  getForecast = async () => {
+    this.setState({isLoading: true});
+    // The fetch will get proxied to the proxy location in Package.json, avoiding CORS errors
+    const response = await fetch(
+      `https://xtzt76pisd.execute-api.us-east-1.amazonaws.com/dev/forecast?address=${encodeURI(
+        this.state.address,
+      )}`,
+    );
+
+    response.json().then(data => {
+      this.setState({forecast: data, isLoading: false});
+    });
+  };
+
+  render() {
+    let dailyData = null;
+
+    if (this.state.forecast) {
+      if (!this.state.hourFilter) {
+        dailyData = this.state.forecast.daily.data;
+      } else {
+        const hourlyData = this.state.forecast.hourly.data.map(hour => ({
+          time: hour.time,
+          ...hour,
+        }));
+
+        let hourlyByDay = Object.values(
+          groupBy(hourlyData, hour => {
+            const hourNumber = Math.floor(hour.time / (60 * 60));
+            return Math.floor(toLocalTime(hourNumber) / 24);
+          }),
+        );
+
+        hourlyByDay = hourlyByDay.map(day =>
+          day.map(hour => {
+            const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+            d.setUTCSeconds(hour.time / 60 / 60 * 60 * 60);
+            const dateNumber = d.getDate();
+            const hourNumber = d.getHours();
+            return {
+              text: moment.unix(hour.time).toString(),
+              dateNumber,
+              hourNumber,
+              ...hour,
+            };
+          }),
+        );
+
+        dailyData = hourlyByDay.map(day => {
+          return day.filter(hour => {
+            return (
+              hour.hourNumber.toString() === this.state.hourFilter.toString()
+            );
+          });
+        });
+
+        // If current day is past the hour, it is probably undefined, get the high instead
+        dailyData = dailyData.map(
+          (day, index) =>
+            day === undefined || day.length === 0
+              ? [this.state.forecast.daily.data[index]]
+              : day,
+        );
+
+        dailyData = dailyData.map(dayHours => dayHours[0]);
+
+        console.warn("ZZZZ App.js", "dailyData", dailyData);
+
+        dailyData = dailyData.filter(dayHours => dayHours);
+      }
+    }
+
+    const averageHigh = !dailyData
+      ? 0
+      : dailyData.reduce((prev, data) => prev + temperatureOf(data), 0) /
+        dailyData.length;
+
+    const maximumHigh = !dailyData
+      ? 0
+      : dailyData.reduce(
+          (prev, data) => Math.max(prev, temperatureOf(data)),
+          -999,
+        );
+
+    const averagePop = !dailyData
+      ? 0
+      : dailyData.reduce((prev, data) => prev + data.precipProbability, 0) /
+        dailyData.length;
+
+    return (
+      <Columns className="App" style={{margin: 0, padding: 0}}>
+        <Column
+          style={{
+            position: "fixed",
+            width: "100vw",
+            top: 0,
+            left: 0,
+            right: 0,
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "visible",
+            padding: 10,
+            background: "#fff900",
+            height: 100,
+          }}
+        >
+          <Header
+            address={this.state.address}
+            getForecast={this.getForecast}
+            hourFilter={this.state.hourFilter}
+            isLoading={this.state.isLoading}
+            setAddress={address => this.setState({address})}
+            setHourFilter={hourFilter => this.setState({hourFilter})}
+          />
+        </Column>
+
+        <Column
+          style={{
+            display: "flex",
+            width: "100vw",
+            height: "calc(100%-100px)",
+            margin: "100px auto auto auto",
+            overflow: "scroll",
+            padding: 0,
+          }}
+        >
+          {this.state.forecast &&
+            dailyData &&
+            dailyData.map((day, key) =>
+              <DayForecast
+                key={key}
+                day={day}
+                daysFromToday={key}
+                maximumHigh={maximumHigh}
+                averageHigh={averageHigh}
+                averagePop={averagePop}
+              />,
+            )}
+        </Column>
+      </Columns>
+    );
+  }
+}
+
+export default WeekView;
