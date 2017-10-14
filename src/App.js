@@ -8,7 +8,9 @@ import "./App.css";
 import "./css/weather-icons.min.css";
 
 const App = () => {
-  return <WeekView />;
+  return (
+      <WeekView />
+  );
 };
 
 export default App;

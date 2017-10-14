@@ -6,6 +6,7 @@ import moment from "moment";
 
 import DayForecast from "components/day-forecast";
 import Header from "components/header";
+import Footer from "components/footer";
 
 import temperatureOf from "utils/temperature-of";
 
@@ -13,8 +14,9 @@ import {Column, Columns} from "bloomer";
 
 import mockForecast from "mock-forecast.json";
 
+const useMockForecast = false;
+
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
-// const localTimeOffset = 0;
 
 const toLocalTime = hour => {
   if (hour === undefined || hour === null) {
@@ -31,7 +33,7 @@ class WeekView extends Component {
     this.state = {
       address: "Westfield, IN",
       hourFilter: null,
-      forecast: mockForecast,
+      forecast: useMockForecast ? mockForecast : null,
     };
   }
 
@@ -124,32 +126,16 @@ class WeekView extends Component {
       : dailyData.reduce((prev, data) => prev + data.precipProbability, 0) /
         dailyData.length;
 
-    return (
+    return [
       <Columns className="App" style={{margin: 0, padding: 0}}>
-        <Column
-          style={{
-            position: "fixed",
-            width: "100vw",
-            top: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            flexWrap: "wrap",
-            overflow: "visible",
-            padding: 10,
-            background: "#fff900",
-            height: 100,
-          }}
-        >
-          <Header
-            address={this.state.address}
-            getForecast={this.getForecast}
-            hourFilter={this.state.hourFilter}
-            isLoading={this.state.isLoading}
-            setAddress={address => this.setState({address})}
-            setHourFilter={hourFilter => this.setState({hourFilter})}
-          />
-        </Column>
+        <Header
+          address={this.state.address}
+          getForecast={this.getForecast}
+          hourFilter={this.state.hourFilter}
+          isLoading={this.state.isLoading}
+          setAddress={address => this.setState({address})}
+          setHourFilter={hourFilter => this.setState({hourFilter})}
+        />
 
         <Column
           style={{
@@ -174,8 +160,9 @@ class WeekView extends Component {
               />,
             )}
         </Column>
-      </Columns>
-    );
+      </Columns>,
+      <Footer />,
+    ];
   }
 }
 

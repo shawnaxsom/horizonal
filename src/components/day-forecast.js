@@ -24,8 +24,17 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
       : {}),
     ...(day.cloudCover > 0.5 ? {background: "#f0f0f0"} : {}),
     ...(day.precipProbability > 0.5 ? {background: "#daeaff"} : {}),
-    ...(dayOfWeek === "Saturday" ? {borderLeft: "2px solid #000000"} : {}),
-    ...(dayOfWeek === "Sunday" ? {borderRight: "2px solid #000000"} : {}),
+    ...(dayOfWeek === "Saturday" ? {borderLeft: "2px solid #555"} : {}),
+    ...(dayOfWeek === "Sunday"
+      ? {
+          borderRight: "2px solid #555",
+        }
+      : {}),
+    ...(dayOfWeek === "Saturday" || dayOfWeek === "Sunday"
+      ? {
+          borderBottom: "2px dashed #ccc",
+        }
+      : {borderBottom: "2px solid #555"}),
   };
 
   return (

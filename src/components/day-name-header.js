@@ -6,8 +6,10 @@ const DayNameHeader = ({day, dayOfWeek, maximumHigh}) =>
   <div
     style={{
       border: "thin solid black",
-      backgroundColor: "#aaa",
+      borderRadius: "0.3em 0 0 0",
+      background: "#aaa",
       color: "white",
+      padding: 4,
       ...(maximumHigh - temperatureOf(day) < 3 ? {background: "#f53"} : {}),
       ...(maximumHigh - temperatureOf(day) > 10 ? {background: "#09f"} : {}),
     }}
