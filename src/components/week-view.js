@@ -14,7 +14,7 @@ import {Column, Columns} from "bloomer";
 
 import mockForecast from "mock-forecast.json";
 
-const useMockForecast = false;
+const useMockForecast = true;
 
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
 
@@ -116,6 +116,13 @@ class WeekView extends Component {
       : dailyData.reduce((prev, data) => prev + temperatureOf(data), 0) /
         dailyData.length;
 
+    const minimumHigh = !dailyData
+      ? 0
+      : dailyData.reduce(
+          (prev, data) => Math.min(prev, temperatureOf(data)),
+          999,
+        );
+
     const maximumHigh = !dailyData
       ? 0
       : dailyData.reduce(
@@ -156,6 +163,7 @@ class WeekView extends Component {
                 key={key}
                 day={day}
                 daysFromToday={key}
+                minimumHigh={minimumHigh}
                 maximumHigh={maximumHigh}
                 averageHigh={averageHigh}
                 averagePop={averagePop}

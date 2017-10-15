@@ -12,7 +12,7 @@ import temperatureOf from "utils/temperature-of";
 const getDayName = daysFromToday =>
   moment().add(daysFromToday, "days").format("dddd");
 
-const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
+const DayForecast = ({day, daysFromToday, minimumHigh, maximumHigh, averageHigh}) => {
   const dayOfWeek = getDayName(daysFromToday);
   const dayPanelStyle = {
     position: "relative",
@@ -44,6 +44,7 @@ const DayForecast = ({day, daysFromToday, maximumHigh, averageHigh}) => {
       <DayNameHeader
         day={day}
         dayOfWeek={dayOfWeek}
+        minimumHigh={minimumHigh}
         maximumHigh={maximumHigh}
       />
       <div style={dayPanelStyle}>
