@@ -87,7 +87,7 @@ const Header = ({
           min={0}
           max={24}
           marks={{
-            0: "ALL",
+            0: "High",
             4: "4",
             8: "8",
             10: "10",
@@ -96,7 +96,7 @@ const Header = ({
             17: "5",
             19: "7",
             21: "9",
-            24: "12a",
+            24: "Low",
           }}
           style={{height: 30, width: "unset", margin: "0 20px 20px"}}
           value={hourFilter}

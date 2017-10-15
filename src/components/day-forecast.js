@@ -20,13 +20,14 @@ const DayForecast = ({
   maximumHigh,
   averageComfortIndex,
   averageHigh,
+  hourFilter,
 }) => {
   const dayOfWeek = getDayName(daysFromToday);
   const dayPanelStyle = {
     position: "relative",
     padding: 0,
     height: "300px",
-    paddingTop: `${(maximumHigh - temperatureOf(day)) * 7}px`,
+    paddingTop: `${(maximumHigh - temperatureOf(day, hourFilter)) * 7}px`,
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
       ? {background: "#ffffcc"}
       : {}),
@@ -55,9 +56,14 @@ const DayForecast = ({
         averageComfortIndex={averageComfortIndex}
         minimumHigh={minimumHigh}
         maximumHigh={maximumHigh}
+        hourFilter={hourFilter}
       />
       <div style={dayPanelStyle}>
-        <Temperature averageHigh={averageHigh} day={day} />
+        <Temperature
+          averageHigh={averageHigh}
+          day={day}
+          hourFilter={hourFilter}
+        />
         <Precipitation day={day} />
       </div>
       <WindSpeed day={day} />

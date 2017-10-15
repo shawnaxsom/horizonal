@@ -8,8 +8,9 @@ const DayNameHeader = ({
   averageComfortIndex,
   minimumHigh,
   maximumHigh,
+  hourFilter,
 }) => {
-  const comfortIndex = calculateComfortIndex(day, minimumHigh, maximumHigh);
+  const comfortIndex = calculateComfortIndex(day, minimumHigh, maximumHigh, hourFilter);
 
   console.warn(
     "ZZZZ day-name-header.js",
@@ -28,8 +29,6 @@ const DayNameHeader = ({
         background: "#000",
         color: "#fff",
         padding: 4,
-        // ...(maximumHigh - temperatureOf(day) < 3 ? {background: "#f53"} : {}),
-        // ...(maximumHigh - temperatureOf(day) > 10 ? {background: "#09f"} : {}),
         ...(comfortIndex > averageComfortIndex + 1
           ? {background: "#fff", color: "#000"}
           : {}),

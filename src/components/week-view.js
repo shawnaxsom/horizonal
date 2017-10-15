@@ -31,6 +31,7 @@ const getDailyData = ({forecast, hourFilter}) => {
   let dailyData = null;
 
   if (forecast) {
+    console.warn("ZZZZ week-view.js", "hourFilter", hourFilter);
     if (!hourFilter) {
       dailyData = forecast.daily.data;
     } else {
@@ -114,20 +115,24 @@ class WeekView extends Component {
 
     const averageHigh = !dailyData
       ? 0
-      : dailyData.reduce((prev, data) => prev + temperatureOf(data), 0) /
-        dailyData.length;
+      : dailyData.reduce(
+          (prev, data) => prev + temperatureOf(data, this.state.hourFilter),
+          0,
+        ) / dailyData.length;
 
     const minimumHigh = !dailyData
       ? 0
       : dailyData.reduce(
-          (prev, data) => Math.min(prev, temperatureOf(data)),
+          (prev, data) =>
+            Math.min(prev, temperatureOf(data, this.state.hourFilter)),
           999,
         );
 
     const maximumHigh = !dailyData
       ? 0
       : dailyData.reduce(
-          (prev, data) => Math.max(prev, temperatureOf(data)),
+          (prev, data) =>
+            Math.max(prev, temperatureOf(data, this.state.hourFilter)),
           -999,
         );
 
@@ -140,12 +145,7 @@ class WeekView extends Component {
       ? 0
       : dailyData.reduce(
           (prev, data) =>
-            prev +
-            calculateComfortIndex(
-              data,
-              minimumHigh,
-              maximumHigh,
-            ),
+            prev + calculateComfortIndex(data, minimumHigh, maximumHigh),
           0,
         ) / dailyData.length;
 
@@ -188,6 +188,7 @@ class WeekView extends Component {
                 averageComfortIndex={averageComfortIndex}
                 averageHigh={averageHigh}
                 averagePop={averagePop}
+                hourFilter={this.state.hourFilter}
               />,
             )}
         </Column>

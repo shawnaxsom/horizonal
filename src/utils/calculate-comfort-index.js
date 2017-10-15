@@ -4,8 +4,8 @@ import temperatureOf from "utils/temperature-of";
 const minimumComfortable = 70;
 const maximumComfortable = 85;
 
-const calculateComfortIndex = (day, minimumHigh, maximumHigh) => {
-  const temp = temperatureOf(day);
+const calculateComfortIndex = (day, minimumHigh, maximumHigh, hourFilter) => {
+  const temp = temperatureOf(day, hourFilter);
 
   const distanceFromMiddleTemperature = Math.abs(
     temp - (minimumHigh + (maximumHigh - minimumHigh) / 2),
