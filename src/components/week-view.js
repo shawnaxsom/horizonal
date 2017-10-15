@@ -31,7 +31,6 @@ const getDailyData = ({forecast, hourFilter}) => {
   let dailyData = null;
 
   if (forecast) {
-    console.warn("ZZZZ week-view.js", "hourFilter", hourFilter);
     if (!hourFilter) {
       dailyData = forecast.daily.data;
     } else {
@@ -149,14 +148,8 @@ class WeekView extends Component {
           0,
         ) / dailyData.length;
 
-    console.warn(
-      "ZZZZ week-view.js",
-      "averageComfortIndex",
-      averageComfortIndex,
-    );
-
     return [
-      <Columns className="App" style={{margin: 0, padding: 0}}>
+      <Columns className="App" style={{maxWidth: 1280, margin: 0, padding: 0}}>
         <Header
           address={this.state.address}
           getForecast={this.getForecast}

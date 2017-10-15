@@ -16,15 +16,15 @@ const CloudCover = ({day}) => {
       padding: 4,
       background: "#ffff00",
     };
-  } else if (day.cloudCover < 0.7) {
+  } else if (day.cloudCover < 0.55) {
     cloudCoverText = <i style={{color: "white"}} className="wi wi-cloud" />;
     boxStyle = {
       borderTop: `${parseInt(
         Math.max(day.cloudCover * cloudCoverHeight, 1),
         10,
-      )}px solid #555555`,
+      )}px solid #888`,
       padding: 4,
-      background: "#555555",
+      background: "#888",
     };
   } else {
     cloudCoverText = <i style={{color: "white"}} className="wi wi-cloud" />;

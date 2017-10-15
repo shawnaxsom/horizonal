@@ -12,15 +12,6 @@ const DayNameHeader = ({
 }) => {
   const comfortIndex = calculateComfortIndex(day, minimumHigh, maximumHigh, hourFilter);
 
-  console.warn(
-    "ZZZZ day-name-header.js",
-    "aCI",
-    "calculateComfortIndex(day, minimumHigh, maximumHigh)",
-    averageComfortIndex,
-    dayOfWeek,
-    comfortIndex,
-  );
-
   return (
     <div
       style={{

@@ -24,20 +24,12 @@ const calculateComfortIndex = (day, minimumHigh, maximumHigh, hourFilter) => {
     indexDistanceBelowComfort,
   );
 
-  // const index = indexDistanceAboveComfort;
-
   const index =
-    0.3 * calculateIndexValue(day.precipProbability, 0.5) +
-    0.3 * indexComfort +
-    0.2 * calculateIndexValue(day.cloudCover, 0.5) +
-    0.15 * calculateIndexValue(day.windSpeed, 15) +
+    0.35 * indexComfort +
+    0.3 * calculateIndexValue(day.precipProbability, 0.7) +
+    0.2 * calculateIndexValue(day.cloudCover, 0.7) +
+    0.1 * calculateIndexValue(day.windSpeed, 15) +
     0.05 * calculateIndexValue(distanceFromMiddleTemperature, 10);
-
-  // const index =
-  //   // 0.4 * indexComfort +
-  //   // 0.3 * calculateIndexValue(day.precipProbability, 1) +
-  //   // 0.2 * calculateIndexValue(day.cloudCover, 1);
-  // // 0.1 * calculateIndexValue(distanceFromMiddleTemperature, 10);
 
   return index;
 };

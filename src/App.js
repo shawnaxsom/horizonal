@@ -9,7 +9,9 @@ import "./css/weather-icons.min.css";
 
 const App = () => {
   return (
+    <div>
       <WeekView />
+    </div>
   );
 };
 

@@ -21,6 +21,7 @@ const Header = ({
       style={{
         position: "fixed",
         width: "100vw",
+        maxWidth: 1280,
         top: 0,
         left: 0,
         right: 0,
