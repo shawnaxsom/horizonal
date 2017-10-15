@@ -6,13 +6,21 @@ import CloudCover from "components/cloud-cover";
 import DayNameHeader from "components/day-name-header";
 import Precipitation from "components/precipitation";
 import Temperature from "components/temperature";
+import WindSpeed from "components/wind-speed";
 
 import temperatureOf from "utils/temperature-of";
 
 const getDayName = daysFromToday =>
   moment().add(daysFromToday, "days").format("dddd");
 
-const DayForecast = ({day, daysFromToday, minimumHigh, maximumHigh, averageHigh}) => {
+const DayForecast = ({
+  day,
+  daysFromToday,
+  minimumHigh,
+  maximumHigh,
+  averageComfortIndex,
+  averageHigh,
+}) => {
   const dayOfWeek = getDayName(daysFromToday);
   const dayPanelStyle = {
     position: "relative",
@@ -44,6 +52,7 @@ const DayForecast = ({day, daysFromToday, minimumHigh, maximumHigh, averageHigh}
       <DayNameHeader
         day={day}
         dayOfWeek={dayOfWeek}
+        averageComfortIndex={averageComfortIndex}
         minimumHigh={minimumHigh}
         maximumHigh={maximumHigh}
       />
@@ -51,6 +60,7 @@ const DayForecast = ({day, daysFromToday, minimumHigh, maximumHigh, averageHigh}
         <Temperature averageHigh={averageHigh} day={day} />
         <Precipitation day={day} />
       </div>
+      <WindSpeed day={day} />
     </div>
   );
 };

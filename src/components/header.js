@@ -18,20 +18,20 @@ const Header = ({
 
   return (
     <header
-          style={{
-            position: "fixed",
-            width: "100vw",
-            top: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            flexWrap: "wrap",
-            overflow: "visible",
-            padding: 10,
-            background: "#fff900",
-            height: 100,
-          }}
->
+      style={{
+        position: "fixed",
+        width: "100vw",
+        top: 0,
+        left: 0,
+        right: 0,
+        display: "flex",
+        flexWrap: "wrap",
+        overflow: "visible",
+        padding: 10,
+        background: "#fff900",
+        height: 100,
+      }}
+    >
       <img
         src={SunIcon}
         alt={"Horizonal"}
@@ -58,7 +58,7 @@ const Header = ({
             <Input
               placeholder="Westfield, IN"
               value={address}
-              onChange={event => setAddress({address: event.target.value})}
+              onChange={event => setAddress(event.target.value)}
             />
           </Control>
           <Control>

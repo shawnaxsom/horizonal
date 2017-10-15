@@ -36,8 +36,6 @@ const CloudCover = ({day}) => {
     };
   }
 
-  console.warn("ZZZZ cloud-cover.js", "boxStyle.borderTop", boxStyle.borderTop);
-
   return (
     <div
       style={{

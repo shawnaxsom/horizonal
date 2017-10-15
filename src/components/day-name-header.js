@@ -1,18 +1,23 @@
 import React from "react";
 
-import temperatureOf from "utils/temperature-of";
+import calculateComfortIndex from "utils/calculate-comfort-index";
 
-const DayNameHeader = ({day, dayOfWeek, minimumHigh, maximumHigh}) => {
-  const distanceFromMiddleTemperature = Math.abs(
-    temperatureOf(day) - (minimumHigh + (maximumHigh - minimumHigh) / 2),
-  );
+const DayNameHeader = ({
+  day,
+  dayOfWeek,
+  averageComfortIndex,
+  minimumHigh,
+  maximumHigh,
+}) => {
+  const comfortIndex = calculateComfortIndex(day, minimumHigh, maximumHigh);
 
   console.warn(
     "ZZZZ day-name-header.js",
-    "distanceFromMiddleTemperature",
-    distanceFromMiddleTemperature,
-    minimumHigh,
-    maximumHigh,
+    "aCI",
+    "calculateComfortIndex(day, minimumHigh, maximumHigh)",
+    averageComfortIndex,
+    dayOfWeek,
+    comfortIndex,
   );
 
   return (
@@ -25,14 +30,12 @@ const DayNameHeader = ({day, dayOfWeek, minimumHigh, maximumHigh}) => {
         padding: 4,
         // ...(maximumHigh - temperatureOf(day) < 3 ? {background: "#f53"} : {}),
         // ...(maximumHigh - temperatureOf(day) > 10 ? {background: "#09f"} : {}),
-        ...(distanceFromMiddleTemperature < 6 &&
-        day.cloudCover < 0.2 &&
-        day.precipProbability < 0.2
+        ...(comfortIndex > averageComfortIndex + 1
           ? {background: "#fff", color: "#000"}
           : {}),
       }}
     >
-      {dayOfWeek}
+      {dayOfWeek} {Math.round(comfortIndex)}
     </div>
   );
 };

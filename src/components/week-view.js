@@ -8,6 +8,7 @@ import DayForecast from "components/day-forecast";
 import Header from "components/header";
 import Footer from "components/footer";
 
+import calculateComfortIndex from "utils/calculate-comfort-index";
 import temperatureOf from "utils/temperature-of";
 
 import {Column, Columns} from "bloomer";
@@ -135,6 +136,25 @@ class WeekView extends Component {
       : dailyData.reduce((prev, data) => prev + data.precipProbability, 0) /
         dailyData.length;
 
+    const averageComfortIndex = !dailyData
+      ? 0
+      : dailyData.reduce(
+          (prev, data) =>
+            prev +
+            calculateComfortIndex(
+              data,
+              minimumHigh,
+              maximumHigh,
+            ),
+          0,
+        ) / dailyData.length;
+
+    console.warn(
+      "ZZZZ week-view.js",
+      "averageComfortIndex",
+      averageComfortIndex,
+    );
+
     return [
       <Columns className="App" style={{margin: 0, padding: 0}}>
         <Header
@@ -165,6 +185,7 @@ class WeekView extends Component {
                 daysFromToday={key}
                 minimumHigh={minimumHigh}
                 maximumHigh={maximumHigh}
+                averageComfortIndex={averageComfortIndex}
                 averageHigh={averageHigh}
                 averagePop={averagePop}
               />,
