@@ -1,5 +1,7 @@
 import React from "react";
 
+const cloudCoverHeight = 72;
+
 const CloudCover = ({day}) => {
   let cloudCoverText;
   let boxStyle;
@@ -8,7 +10,7 @@ const CloudCover = ({day}) => {
 
     boxStyle = {
       borderTop: `${parseInt(
-        Math.max(day.cloudCover * 120, 1),
+        Math.max(day.cloudCover * cloudCoverHeight, 1),
         10,
       )}px solid #ffff00`,
       padding: 4,
@@ -18,7 +20,7 @@ const CloudCover = ({day}) => {
     cloudCoverText = <i style={{color: "white"}} className="wi wi-cloud" />;
     boxStyle = {
       borderTop: `${parseInt(
-        Math.max(day.cloudCover * 120, 1),
+        Math.max(day.cloudCover * cloudCoverHeight, 1),
         10,
       )}px solid #555555`,
       padding: 4,
@@ -28,7 +30,7 @@ const CloudCover = ({day}) => {
     cloudCoverText = <i style={{color: "white"}} className="wi wi-cloud" />;
     boxStyle = {
       borderTop: `${parseInt(
-        Math.max(day.cloudCover * 120, 1),
+        Math.max(day.cloudCover * cloudCoverHeight, 1),
         10,
       )}px solid #000000`,
       padding: 4,
@@ -39,7 +41,7 @@ const CloudCover = ({day}) => {
   return (
     <div
       style={{
-        height: `${parseInt(1.0 * 150, 10) + 4 + 4 + 18}px`,
+        height: `${parseInt(1.0 * (cloudCoverHeight + 30), 10) + 4 + 4 + 18}px`,
         background: "#fafafa",
       }}
     >
