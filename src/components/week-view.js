@@ -26,6 +26,63 @@ const toLocalTime = hour => {
   return hour - localTimeOffset;
 };
 
+const getDailyData = ({forecast, hourFilter}) => {
+  let dailyData = null;
+
+  if (forecast) {
+    if (!hourFilter) {
+      dailyData = forecast.daily.data;
+    } else {
+      const hourlyData = forecast.hourly.data.map(hour => ({
+        time: hour.time,
+        ...hour,
+      }));
+
+      let hourlyByDay = Object.values(
+        groupBy(hourlyData, hour => {
+          const hourNumber = Math.floor(hour.time / (60 * 60));
+          return Math.floor(toLocalTime(hourNumber) / 24);
+        }),
+      );
+
+      hourlyByDay = hourlyByDay.map(day =>
+        day.map(hour => {
+          const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+          d.setUTCSeconds(hour.time / 60 / 60 * 60 * 60);
+          const dateNumber = d.getDate();
+          const hourNumber = d.getHours();
+          return {
+            text: moment.unix(hour.time).toString(),
+            dateNumber,
+            hourNumber,
+            ...hour,
+          };
+        }),
+      );
+
+      dailyData = hourlyByDay.map(day => {
+        return day.filter(hour => {
+          return hour.hourNumber.toString() === hourFilter.toString();
+        });
+      });
+
+      // If current day is past the hour, it is probably undefined, get the high instead
+      dailyData = dailyData.map(
+        (day, index) =>
+          day === undefined || day.length === 0
+            ? [forecast.daily.data[index]]
+            : day,
+      );
+
+      dailyData = dailyData.map(dayHours => dayHours[0]);
+
+      dailyData = dailyData.filter(dayHours => dayHours);
+    }
+  }
+
+  return dailyData;
+};
+
 class WeekView extends Component {
   constructor(props) {
     super(props);
@@ -52,62 +109,7 @@ class WeekView extends Component {
   };
 
   render() {
-    let dailyData = null;
-
-    if (this.state.forecast) {
-      if (!this.state.hourFilter) {
-        dailyData = this.state.forecast.daily.data;
-      } else {
-        const hourlyData = this.state.forecast.hourly.data.map(hour => ({
-          time: hour.time,
-          ...hour,
-        }));
-
-        let hourlyByDay = Object.values(
-          groupBy(hourlyData, hour => {
-            const hourNumber = Math.floor(hour.time / (60 * 60));
-            return Math.floor(toLocalTime(hourNumber) / 24);
-          }),
-        );
-
-        hourlyByDay = hourlyByDay.map(day =>
-          day.map(hour => {
-            const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-            d.setUTCSeconds(hour.time / 60 / 60 * 60 * 60);
-            const dateNumber = d.getDate();
-            const hourNumber = d.getHours();
-            return {
-              text: moment.unix(hour.time).toString(),
-              dateNumber,
-              hourNumber,
-              ...hour,
-            };
-          }),
-        );
-
-        dailyData = hourlyByDay.map(day => {
-          return day.filter(hour => {
-            return (
-              hour.hourNumber.toString() === this.state.hourFilter.toString()
-            );
-          });
-        });
-
-        // If current day is past the hour, it is probably undefined, get the high instead
-        dailyData = dailyData.map(
-          (day, index) =>
-            day === undefined || day.length === 0
-              ? [this.state.forecast.daily.data[index]]
-              : day,
-        );
-
-        dailyData = dailyData.map(dayHours => dayHours[0]);
-
-        console.warn("ZZZZ App.js", "dailyData", dailyData);
-
-        dailyData = dailyData.filter(dayHours => dayHours);
-      }
-    }
+    const dailyData = getDailyData(this.state);
 
     const averageHigh = !dailyData
       ? 0
