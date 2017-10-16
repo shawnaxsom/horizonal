@@ -1,15 +1,12 @@
 import React, {Component} from "react";
 
 import "rc-slider/assets/index.css";
-import groupBy from "lodash/groupBy";
-import moment from "moment";
 
 import DayForecast from "components/day-forecast";
 import Header from "components/header";
 import Footer from "components/footer";
 
-import calculateComfortIndex from "utils/calculate-comfort-index";
-import temperatureOf from "utils/temperature-of";
+import getDailyData from "utils/get-daily-data";
 
 import {Column, Columns} from "bloomer";
 
@@ -17,79 +14,14 @@ import mockForecast from "mock-forecast.json";
 
 const useMockForecast = false;
 
-const localTimeOffset = new Date().getTimezoneOffset() / 60;
-
-const toLocalTime = hour => {
-  if (hour === undefined || hour === null) {
-    return hour;
-  }
-
-  return hour - localTimeOffset;
-};
-
-const getDailyData = ({forecast, hourFilter}) => {
-  let dailyData = null;
-
-  if (forecast) {
-    if (!hourFilter) {
-      dailyData = forecast.daily.data;
-    } else {
-      const hourlyData = forecast.hourly.data.map(hour => ({
-        time: hour.time,
-        ...hour,
-      }));
-
-      let hourlyByDay = Object.values(
-        groupBy(hourlyData, hour => {
-          const hourNumber = Math.floor(hour.time / (60 * 60));
-          return Math.floor(toLocalTime(hourNumber) / 24);
-        }),
-      );
-
-      hourlyByDay = hourlyByDay.map(day =>
-        day.map(hour => {
-          const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-          d.setUTCSeconds(hour.time / 60 / 60 * 60 * 60);
-          const dateNumber = d.getDate();
-          const hourNumber = d.getHours();
-          return {
-            text: moment.unix(hour.time).toString(),
-            dateNumber,
-            hourNumber,
-            ...hour,
-          };
-        }),
-      );
-
-      dailyData = hourlyByDay.map(day => {
-        return day.filter(hour => {
-          return hour.hourNumber.toString() === hourFilter.toString();
-        });
-      });
-
-      // If current day is past the hour, it is probably undefined, get the high instead
-      dailyData = dailyData.map(
-        (day, index) =>
-          day === undefined || day.length === 0
-            ? [forecast.daily.data[index]]
-            : day,
-      );
-
-      dailyData = dailyData.map(dayHours => dayHours[0]);
-
-      dailyData = dailyData.filter(dayHours => dayHours);
-    }
-  }
-
-  return dailyData;
-};
-
 class WeekView extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       address: "Westfield, IN",
+      // ZZZZ
+      dayFilter: null,
       hourFilter: null,
       forecast: useMockForecast ? mockForecast : null,
     };
@@ -116,43 +48,7 @@ class WeekView extends Component {
   }
 
   render() {
-    const dailyData = getDailyData(this.state);
-
-    const averageHigh = !dailyData
-      ? 0
-      : dailyData.reduce(
-          (prev, data) => prev + temperatureOf(data, this.state.hourFilter),
-          0,
-        ) / dailyData.length;
-
-    const minimumHigh = !dailyData
-      ? 0
-      : dailyData.reduce(
-          (prev, data) =>
-            Math.min(prev, temperatureOf(data, this.state.hourFilter)),
-          999,
-        );
-
-    const maximumHigh = !dailyData
-      ? 0
-      : dailyData.reduce(
-          (prev, data) =>
-            Math.max(prev, temperatureOf(data, this.state.hourFilter)),
-          -999,
-        );
-
-    const averagePop = !dailyData
-      ? 0
-      : dailyData.reduce((prev, data) => prev + data.precipProbability, 0) /
-        dailyData.length;
-
-    const averageComfortIndex = !dailyData
-      ? 0
-      : dailyData.reduce(
-          (prev, data) =>
-            prev + calculateComfortIndex(data, minimumHigh, maximumHigh),
-          0,
-        ) / dailyData.length;
+    const data = getDailyData(this.state);
 
     return [
       <Columns className="App" style={{maxWidth: 1280, margin: 0, padding: 0}}>
@@ -162,6 +58,7 @@ class WeekView extends Component {
           hourFilter={this.state.hourFilter}
           isLoading={this.state.isLoading}
           setAddress={address => this.setState({address})}
+          setDayFilter={dayFilter => this.setState({dayFilter})}
           setHourFilter={hourFilter => this.setState({hourFilter})}
         />
 
@@ -176,18 +73,25 @@ class WeekView extends Component {
           }}
         >
           {this.state.forecast &&
-            dailyData &&
-            dailyData.map((day, key) =>
+            data.dailyData &&
+            data.dailyData.map((day, key) =>
               <DayForecast
                 key={key}
                 day={day}
                 daysFromToday={key}
-                minimumHigh={minimumHigh}
-                maximumHigh={maximumHigh}
-                averageComfortIndex={averageComfortIndex}
-                averageHigh={averageHigh}
-                averagePop={averagePop}
+                minimumHigh={data.minimumHigh}
+                maximumHigh={data.maximumHigh}
+                averageComfortIndex={data.averageComfortIndex}
+                averageHigh={data.averageHigh}
+                averagePop={data.averagePop}
+                dayFilter={this.state.dayFilter}
                 hourFilter={this.state.hourFilter}
+                setDayFilter={dayFilter =>
+                  console.warn(
+                    "ZZZZ week-view.js set ",
+                    "dayFilter",
+                    dayFilter,
+                  ) || this.setState({dayFilter})}
               />,
             )}
         </Column>

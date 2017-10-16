@@ -20,7 +20,9 @@ const DayForecast = ({
   maximumHigh,
   averageComfortIndex,
   averageHigh,
+  dayFilter,
   hourFilter,
+  setDayFilter,
 }) => {
   const dayOfWeek = getDayName(daysFromToday);
   const dayPanelStyle = {
@@ -47,7 +49,10 @@ const DayForecast = ({
   };
 
   return (
-    <div style={{flexGrow: 1, minWidth: 70, overflow: "hidden"}}>
+    <div
+      style={{flexGrow: 1, minWidth: 70, overflow: "hidden", cursor: "pointer"}}
+      onClick={() => setDayFilter(moment.unix(day.time).date())}
+    >
       <CloudCover day={day} />
 
       <DayNameHeader
@@ -56,6 +61,7 @@ const DayForecast = ({
         averageComfortIndex={averageComfortIndex}
         minimumHigh={minimumHigh}
         maximumHigh={maximumHigh}
+        dayFilter={dayFilter}
         hourFilter={hourFilter}
       />
       <div style={dayPanelStyle}>

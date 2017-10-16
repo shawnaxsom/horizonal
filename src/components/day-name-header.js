@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import calculateComfortIndex from "utils/calculate-comfort-index";
 
@@ -8,6 +9,7 @@ const DayNameHeader = ({
   averageComfortIndex,
   minimumHigh,
   maximumHigh,
+  dayFilter,
   hourFilter,
 }) => {
   const comfortIndex = calculateComfortIndex(
@@ -15,6 +17,12 @@ const DayNameHeader = ({
     minimumHigh,
     maximumHigh,
     hourFilter,
+  );
+
+  console.warn(
+    "ZZZZ day-name-header.js",
+    "day",
+    moment.unix(day.time).format("ddd"),
   );
 
   return (
@@ -29,7 +37,8 @@ const DayNameHeader = ({
           : {}),
       }}
     >
-      {dayOfWeek.substr(0, 3).toUpperCase()} {Math.round(comfortIndex)}
+      { dayFilter ? day.hourNumber + 1 : moment.unix(day.time).format("ddd").toUpperCase()} {" "}
+      {Math.round(comfortIndex)}
     </div>
   );
 };

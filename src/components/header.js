@@ -12,6 +12,7 @@ const Header = ({
   hourFilter,
   isLoading,
   setAddress,
+  setDayFilter,
   setHourFilter,
 }) => {
   const isDesktop = window.innerWidth > 768;
@@ -36,7 +37,9 @@ const Header = ({
       <img
         src={SunIcon}
         alt={"Horizonal"}
+        onClick={() => setDayFilter(null)}
         style={{
+          cursor: "pointer",
           position: "absolute",
           left: 0,
           top: 0,
