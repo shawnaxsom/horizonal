@@ -32,9 +32,9 @@ const CloudCover = ({day}) => {
       borderTop: `${parseInt(
         Math.max(day.cloudCover * cloudCoverHeight, 1),
         10,
-      )}px solid #000000`,
+      )}px solid #444`,
       padding: 4,
-      background: "#000000",
+      background: "#444",
     };
   }
 
@@ -46,8 +46,10 @@ const CloudCover = ({day}) => {
       }}
     >
       <div
-        style={boxStyle
-        }
+        style={{
+          ...boxStyle,
+          borderRadius: "0 0 0.3em 0.3em",
+        }}
       >
         {cloudCoverText}
         <div

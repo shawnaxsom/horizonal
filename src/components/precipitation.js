@@ -9,9 +9,9 @@ const Precipitation = ({day}) =>
       borderLeft: 0,
       borderRight: 0,
       borderBottom: 0,
-      borderTop: `${day.precipProbability * 120 - 10}px solid #aaccff`,
+      borderTop: `${day.precipProbability * 120 - 10}px solid #bef`,
       bottom: 0,
-      background: "#aaccff",
+      background: "#bef",
     }}
   >
     <i className="wi wi-rain" />

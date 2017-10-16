@@ -20,14 +20,12 @@ const DayNameHeader = ({
   return (
     <div
       style={{
-        border: "thin solid black",
-        borderRadius: "0.3em 0.3em 0 0",
-        background: "#000",
+        background: "#555",
         color: "#fff",
         padding: 4,
         fontSize: "0.9em",
         ...(comfortIndex > averageComfortIndex + 1
-          ? {background: "#fff", color: "#000"}
+          ? {background: "#fff", color: "#444"}
           : {}),
       }}
     >

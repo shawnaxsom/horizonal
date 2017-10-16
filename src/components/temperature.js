@@ -6,8 +6,8 @@ const Temperature = ({averageHigh, day, hourFilter}) =>
   <div
     style={
       temperatureOf(day, hourFilter) > averageHigh
-        ? {background: "#e20", color: "#fff"}
-        : {background: "#57f", color: "#fff"}
+        ? {background: "#d52", color: "#fff"}
+        : {background: "#57d", color: "#fff"}
     }
   >
     {Math.round(temperatureOf(day, hourFilter), 0)}

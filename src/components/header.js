@@ -29,7 +29,7 @@ const Header = ({
         flexWrap: "wrap",
         overflow: "visible",
         padding: 10,
-        background: "#fff900",
+        background: "#ff7",
         height: 100,
       }}
     >
@@ -64,7 +64,7 @@ const Header = ({
           </Control>
           <Control>
             <Button
-              isColor="info"
+              isColor="dark"
               isLoading={isLoading}
               render={props =>
                 <Column
