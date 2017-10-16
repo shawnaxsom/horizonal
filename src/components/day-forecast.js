@@ -47,7 +47,7 @@ const DayForecast = ({
   };
 
   return (
-    <div style={{flexGrow: 1}}>
+    <div style={{flexGrow: 1, minWidth: 70, overflow: "hidden"}}>
       <CloudCover day={day} />
 
       <DayNameHeader

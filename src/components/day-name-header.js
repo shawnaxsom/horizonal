@@ -10,7 +10,12 @@ const DayNameHeader = ({
   maximumHigh,
   hourFilter,
 }) => {
-  const comfortIndex = calculateComfortIndex(day, minimumHigh, maximumHigh, hourFilter);
+  const comfortIndex = calculateComfortIndex(
+    day,
+    minimumHigh,
+    maximumHigh,
+    hourFilter,
+  );
 
   return (
     <div
@@ -20,12 +25,13 @@ const DayNameHeader = ({
         background: "#000",
         color: "#fff",
         padding: 4,
+        fontSize: "0.9em",
         ...(comfortIndex > averageComfortIndex + 1
           ? {background: "#fff", color: "#000"}
           : {}),
       }}
     >
-      {dayOfWeek} {Math.round(comfortIndex)}
+      {dayOfWeek.substr(0, 3).toUpperCase()} {Math.round(comfortIndex)}
     </div>
   );
 };

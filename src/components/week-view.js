@@ -15,7 +15,7 @@ import {Column, Columns} from "bloomer";
 
 import mockForecast from "mock-forecast.json";
 
-const useMockForecast = true;
+const useMockForecast = false;
 
 const localTimeOffset = new Date().getTimezoneOffset() / 60;
 
@@ -108,6 +108,12 @@ class WeekView extends Component {
       this.setState({forecast: data, isLoading: false});
     });
   };
+
+  componentWillMount() {
+    if (!useMockForecast) {
+      this.getForecast();
+    }
+  }
 
   render() {
     const dailyData = getDailyData(this.state);

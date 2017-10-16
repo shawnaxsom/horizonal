@@ -45,7 +45,10 @@ const CloudCover = ({day}) => {
         background: "#fafafa",
       }}
     >
-      <div style={boxStyle}>
+      <div
+        style={boxStyle
+        }
+      >
         {cloudCoverText}
         <div
           style={{
