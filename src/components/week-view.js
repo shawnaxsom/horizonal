@@ -20,7 +20,6 @@ class WeekView extends Component {
 
     this.state = {
       address: "Westfield, IN",
-      // ZZZZ
       dayFilter: null,
       hourFilter: null,
       forecast: useMockForecast ? mockForecast : null,
@@ -87,11 +86,7 @@ class WeekView extends Component {
                 dayFilter={this.state.dayFilter}
                 hourFilter={this.state.hourFilter}
                 setDayFilter={dayFilter =>
-                  console.warn(
-                    "ZZZZ week-view.js set ",
-                    "dayFilter",
-                    dayFilter,
-                  ) || this.setState({dayFilter})}
+                  this.setState({dayFilter})}
               />,
             )}
         </Column>

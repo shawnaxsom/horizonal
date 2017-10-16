@@ -18,7 +18,6 @@ const getDailyData = ({forecast, dayFilter, hourFilter}) => {
   let dailyData = null;
 
   if (forecast) {
-    console.warn("ZZZZ get-daily-data.js", "dayFilter", dayFilter)
     if (dayFilter || hourFilter) {
       const hourlyData = forecast.hourly.data.map(hour => ({
         time: hour.time,
@@ -47,10 +46,7 @@ const getDailyData = ({forecast, dayFilter, hourFilter}) => {
         }),
       );
 
-      console.warn("ZZZZ get-daily-data.js", "dayFilter", dayFilter);
       if (dayFilter) {
-        // ZZZZ
-        console.warn("ZZZZ get-daily-data.js", "hourlyByDay", hourlyByDay);
         dailyData = hourlyByDay.filter(d => d[0].dateNumber === dayFilter)[0];
       } else if (hourFilter) {
         dailyData = hourlyByDay.map(day => {
@@ -68,7 +64,6 @@ const getDailyData = ({forecast, dayFilter, hourFilter}) => {
             : day,
       );
 
-      console.warn("ZZZZ get-daily-data.js", "dailyData", dailyData);
       if (!dayFilter) {
         dailyData = dailyData.map(dayHours => dayHours[0]);
       }

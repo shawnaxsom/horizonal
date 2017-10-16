@@ -19,12 +19,6 @@ const DayNameHeader = ({
     hourFilter,
   );
 
-  console.warn(
-    "ZZZZ day-name-header.js",
-    "day",
-    moment.unix(day.time).format("ddd"),
-  );
-
   return (
     <div
       style={{
@@ -37,7 +31,9 @@ const DayNameHeader = ({
           : {}),
       }}
     >
-      { dayFilter ? day.hourNumber + 1 : moment.unix(day.time).format("ddd").toUpperCase()} {" "}
+      {dayFilter
+        ? moment.unix(day.time).format("ha")
+        : moment.unix(day.time).format("ddd").toUpperCase()}{" "}
       {Math.round(comfortIndex)}
     </div>
   );
