@@ -14,7 +14,7 @@ const toLocalTime = hour => {
   return hour - localTimeOffset;
 };
 
-const getDailyData = ({forecast, dayFilter, hourFilter}) => {
+const getForecastData = ({forecast, dayFilter, hourFilter}) => {
   let dailyData = null;
 
   if (forecast) {
@@ -48,6 +48,9 @@ const getDailyData = ({forecast, dayFilter, hourFilter}) => {
 
       if (dayFilter) {
         dailyData = hourlyByDay.filter(d => d[0].dateNumber === dayFilter)[0];
+        dailyData = dailyData.filter(hour => {
+          return hour.hourNumber > 5;
+        });
       } else if (hourFilter) {
         dailyData = hourlyByDay.map(day => {
           return day.filter(hour => {
@@ -118,4 +121,4 @@ const getDailyData = ({forecast, dayFilter, hourFilter}) => {
   };
 };
 
-export default getDailyData;
+export default getForecastData;

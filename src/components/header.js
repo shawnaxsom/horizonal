@@ -34,21 +34,28 @@ const Header = ({
         height: 100,
       }}
     >
-      <img
-        src={SunIcon}
-        alt={"Horizonal"}
-        onClick={() => setDayFilter(null)}
-        style={{
-          cursor: "pointer",
-          position: "absolute",
-          left: 0,
-          top: 0,
-          marginLeft: 8,
-          ...(isDesktop
-            ? {width: 96, marginTop: 0}
-            : {width: 32, marginTop: 12}),
+      <div
+        role="button"
+        onClick={() => {
+          setDayFilter(null);
+          setHourFilter(null);
         }}
-      />
+      >
+        <img
+          src={SunIcon}
+          alt={"Horizonal"}
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            marginLeft: 8,
+            ...(isDesktop
+              ? {width: 96, marginTop: 0}
+              : {width: 32, marginTop: 12}),
+          }}
+        />
+      </div>
       <div
         style={{
           width: "100%",
@@ -64,7 +71,7 @@ const Header = ({
               value={address}
               onMouseDown={event => {
                 event.preventDefault();
-                event.target.select()
+                event.target.select();
               }}
               onKeyDown={event => event.keyCode === 13 && getForecast()}
               onChange={event => setAddress(event.target.value)}

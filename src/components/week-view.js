@@ -6,7 +6,7 @@ import DayForecast from "components/day-forecast";
 import Header from "components/header";
 import Footer from "components/footer";
 
-import getDailyData from "utils/get-daily-data";
+import getForecastData from "utils/get-forecast-data";
 
 import {Column, Columns} from "bloomer";
 
@@ -47,7 +47,7 @@ class WeekView extends Component {
   }
 
   render() {
-    const data = getDailyData(this.state);
+    const data = getForecastData(this.state);
 
     return [
       <Columns className="App" style={{maxWidth: 1280, margin: 0, padding: 0}}>

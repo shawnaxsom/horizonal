@@ -5,7 +5,6 @@ import calculateComfortIndex from "utils/calculate-comfort-index";
 
 const DayNameHeader = ({
   day,
-  dayOfWeek,
   averageComfortIndex,
   minimumHigh,
   maximumHigh,
@@ -32,7 +31,10 @@ const DayNameHeader = ({
       }}
     >
       {dayFilter
-        ? moment.unix(day.time).format("ha")
+        ? `${moment.unix(day.time).format("h")}${moment
+            .unix(day.time)
+            .format("a")
+            .substr(0, 1)}`
         : moment.unix(day.time).format("ddd").toUpperCase()}{" "}
       {Math.round(comfortIndex)}
     </div>
