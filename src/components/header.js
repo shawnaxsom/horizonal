@@ -62,6 +62,11 @@ const Header = ({
             <Input
               placeholder="Westfield, IN"
               value={address}
+              onMouseDown={event => {
+                event.preventDefault();
+                event.target.select()
+              }}
+              onKeyDown={event => event.keyCode === 13 && getForecast()}
               onChange={event => setAddress(event.target.value)}
             />
           </Control>
