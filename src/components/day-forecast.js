@@ -51,7 +51,10 @@ const DayForecast = ({
   return (
     <div
       style={{flexGrow: 1, minWidth: 70, overflow: "hidden", cursor: "pointer"}}
-      onClick={() => setDayFilter(moment.unix(day.time).date())}
+      onClick={() =>
+        dayFilter
+          ? setDayFilter(null)
+          : setDayFilter(moment.unix(day.time).date())}
     >
       <CloudCover day={day} />
 
