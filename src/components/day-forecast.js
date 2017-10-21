@@ -27,20 +27,11 @@ const DayForecast = ({
   const range = maximumHigh - minimumHigh;
   const temperature = temperatureOf(day, hourFilter);
   const dayOfWeek = getDayName(daysFromToday);
-  console.warn(
-    "ZZZZ day-forecast.js",
-    "temperature, maximumHigh, range",
-    temperature,
-    maximumHigh,
-    range,
-    (maximumHigh - temperature) / range * 100,
-  );
+
   const dayPanelStyle = {
     position: "relative",
     padding: 0,
-    height: "55%",
-    // paddingTop: `${(maximumHigh - temperatureOf(day, hourFilter)) * 7}px`,
-    // paddingTop: `${(maximumHigh - temperature) / range * 100}%`,
+    height: "calc(70% - 29px - 28px)",
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
       ? {background: "#ffffcc"}
       : {}),

@@ -9,7 +9,8 @@ const Precipitation = ({day}) =>
       left: 0,
       right: 0,
       bottom: 0,
-      height: `${day.precipProbability * 120 - 10}px`,
+      height: `${day.precipProbability * 100}%`,
+      minHeight: 24,
       background: "#bef",
     }}
   >

@@ -65,9 +65,9 @@ class WeekView extends Component {
           style={{
             display: "flex",
             width: "100vw",
-            height: "calc(100vh - 100px)",
-            margin: "100px auto auto auto",
-            overflow: "scroll",
+            height: "calc(100vh - 125px)",
+            margin: "100px auto 0",
+            overflowX: "scroll",
             padding: 0,
           }}
         >
