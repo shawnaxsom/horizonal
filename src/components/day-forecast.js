@@ -61,8 +61,6 @@ const DayForecast = ({
       : {borderBottom: "2px solid #555"}),
   };
 
-  const temperatureMaxTopPercent = 60;
-
   return (
     <div
       style={{
@@ -89,18 +87,21 @@ const DayForecast = ({
         hourFilter={hourFilter}
       />
       <div style={dayPanelStyle}>
-        <Temperature
-          style={{
-            position: "absolute",
-            top: `${(maximumHigh - temperature) /
-              range *
-              temperatureMaxTopPercent}%`,
-          }}
-          averageHigh={averageHigh}
-          day={day}
-          hourFilter={hourFilter}
-        />
-        <Precipitation day={day} />
+        <div style={{position: "relative", height: "70%"}}>
+          <Temperature
+            style={{
+              position: "absolute",
+              top: `${(maximumHigh - temperature) / range * 100}%`,
+            }}
+            averageHigh={averageHigh}
+            day={day}
+            hourFilter={hourFilter}
+          />
+        </div>
+
+        <div style={{position: "relative", height: "30%"}}>
+          <Precipitation day={day} />
+        </div>
       </div>
       <WindSpeed day={day} />
     </div>
