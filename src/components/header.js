@@ -4,7 +4,8 @@ import Slider from "rc-slider";
 
 import {Column, Field, Control, Input, Button} from "bloomer";
 
-const SunIcon = require("../if_cloud_126565.png");
+// const SunIcon = require("../if_cloud_126565.png");
+const SunIcon = require("../if_cloud_126565.svg");
 
 const Header = ({
   address,
@@ -30,7 +31,7 @@ const Header = ({
         flexWrap: "wrap",
         overflow: "visible",
         padding: 10,
-        background: "#ff7",
+        background: "#444",
         height: 100,
         zIndex: 2000,
       }}
@@ -104,18 +105,19 @@ const Header = ({
           min={0}
           max={24}
           marks={{
-            0: "High",
-            4: "4",
-            8: "8",
-            10: "10",
-            12: "12p",
-            14: "2",
-            17: "5",
-            19: "7",
-            21: "9",
-            24: "Low",
+            0: {label: "High", style: {color: "#ffa"}},
+            8: {label: "8", style: {color: "#ddb"}},
+            12: {label: "12p", style: {color: "#ffa"}},
+            17: {label: "5", style: {color: "#ddb"}},
+            21: {label: "9", style: {color: "#ddb"}},
+            24: {label: "Low", style: {color: "#ffa"}},
           }}
-          style={{height: 30, width: "unset", margin: "0 20px 20px"}}
+          style={{
+            height: 30,
+            color: "red",
+            width: "unset",
+            margin: "0 20px 20px",
+          }}
           value={hourFilter}
           onChange={setHourFilter}
         />

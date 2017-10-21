@@ -7,7 +7,7 @@ const CloudCover = ({day, style}) => {
   if (day.cloudCover < 0.2) {
     cloudCoverText = <i style={{color: "black"}} className="wi wi-day-sunny" />;
     boxStyle = {
-      background: "#ffff00",
+      background: "#ff8",
     };
   } else if (day.cloudCover < 0.55) {
     cloudCoverText = <i style={{color: "white"}} className="wi wi-cloud" />;
@@ -32,8 +32,9 @@ const CloudCover = ({day, style}) => {
         <div
           style={{
             ...boxStyle,
-            borderRadius: "0 0 0.3em 0.3em",
+            borderRadius: "0 0 0.25em 0.25em",
             height: `${day.cloudCover * 100}%`,
+            minHeight: 24,
             position: "relative",
           }}
         >
@@ -43,7 +44,8 @@ const CloudCover = ({day, style}) => {
               style={{
                 display: "inline-block",
                 marginLeft: 10,
-                ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
+                ...(day.cloudCover > 0.2 ? {color: "#ffc"} : {color: "#444"}),
+                ...(day.cloudCover > 0.55 ? {color: "#ffa"} : {}),
               }}
             >
               {Math.round(day.cloudCover * 100, 0)}%

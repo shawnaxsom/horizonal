@@ -78,7 +78,7 @@ const DayForecast = ({
         hourFilter={hourFilter}
       />
       <div style={dayPanelStyle}>
-        <div style={{position: "relative", height: "70%"}}>
+        <div style={{position: "relative", height: "50%"}}>
           <Temperature
             style={{
               position: "absolute",
@@ -90,7 +90,12 @@ const DayForecast = ({
           />
         </div>
 
-        <div style={{position: "relative", height: "30%"}}>
+        <div
+          style={{
+            position: "relative",
+            height: "50%",
+          }}
+        >
           <Precipitation day={day} />
         </div>
       </div>
