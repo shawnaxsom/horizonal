@@ -12,7 +12,7 @@ import {Column, Columns} from "bloomer";
 
 import mockForecast from "mock-forecast.json";
 
-const useMockForecast = true;
+const useMockForecast = false;
 
 class WeekView extends Component {
   constructor(props) {
