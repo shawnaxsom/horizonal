@@ -34,7 +34,7 @@ const DayForecast = ({
     height: "calc(70% - 29px - 28px)",
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
       ? {background: "#ffffcc"}
-      : {}),
+      : {background: "#ffffff"}),
     ...(day.cloudCover > 0.5 ? {background: "#f0f0f0"} : {}),
     ...(day.precipProbability > 0.5 ? {background: "#daeaff"} : {}),
     ...(!dayFilter && dayOfWeek === "Saturday"

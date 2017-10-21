@@ -9,7 +9,9 @@ const windSpeed = ({day}) =>
         ? {
             backgroundColor: "#eaeae0",
           }
-        : {}),
+        : {
+            backgroundColor: "#fafafa",
+          }),
     }}
   >
     {day.windSpeed > 7 && [
