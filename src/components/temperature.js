@@ -6,8 +6,8 @@ const Temperature = ({averageHigh, day, hourFilter, style}) =>
   <div
     style={{
       ...(temperatureOf(day, hourFilter) > averageHigh
-        ? {background: "#c34", color: "#fff"}
-        : {background: "#49c", color: "#fff"}),
+        ? {background: "#e46", color: "#fff"}
+        : {background: "#9cd", color: "#342"}),
       zIndex: 1000,
       position: "relative",
       width: "100%",

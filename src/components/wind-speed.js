@@ -5,7 +5,11 @@ const windSpeed = ({day}) =>
     style={{
       borderBottom: "thin solid black",
       height: 28,
-      ...(day.windSpeed > 7 ? {backgroundColor: "#f0f0f0"} : {}),
+      ...(day.windSpeed > 7
+        ? {
+            backgroundColor: "#eaeae0",
+          }
+        : {}),
     }}
   >
     {day.windSpeed > 7 && [

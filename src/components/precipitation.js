@@ -14,6 +14,10 @@ const Precipitation = ({day}) =>
       minHeight: 24,
       color: "#00a",
       background: "#abf",
+      ...(day.precipProbability > 0.15
+        ? {background: "#bbf"}
+        : {background: "#aae"}),
+      ...(day.precipProbability > 0.3 ? {background: "#dbf"} : {}),
       borderRadius: "0.2em 0.2em 0 0",
       paddingTop: 2,
     }}
