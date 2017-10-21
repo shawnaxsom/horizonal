@@ -2,7 +2,7 @@ import React from "react";
 
 const cloudCoverHeight = 72;
 
-const CloudCover = ({day}) => {
+const CloudCover = ({day, style}) => {
   let cloudCoverText;
   let boxStyle;
   if (day.cloudCover < 0.2) {
@@ -39,27 +39,32 @@ const CloudCover = ({day}) => {
   }
 
   return (
-    <div
-      style={{
-        height: `${parseInt(1.0 * (cloudCoverHeight + 30), 10) + 4 + 4 + 18}px`,
-        background: "#fafafa",
-      }}
-    >
+    <div style={{...style}}>
       <div
         style={{
-          ...boxStyle,
-          borderRadius: "0 0 0.3em 0.3em",
+          height: `${parseInt(1.0 * (cloudCoverHeight + 30), 10) +
+            4 +
+            4 +
+            18}px`,
+          background: "#fafafa",
         }}
       >
-        {cloudCoverText}
         <div
           style={{
-            display: "inline-block",
-            marginLeft: 10,
-            ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
+            ...boxStyle,
+            borderRadius: "0 0 0.3em 0.3em",
           }}
         >
-          {Math.round(day.cloudCover * 100, 0)}%
+          {cloudCoverText}
+          <div
+            style={{
+              display: "inline-block",
+              marginLeft: 10,
+              ...(day.cloudCover < 0.2 ? {color: "black"} : {color: "white"}),
+            }}
+          >
+            {Math.round(day.cloudCover * 100, 0)}%
+          </div>
         </div>
       </div>
     </div>

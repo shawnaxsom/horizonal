@@ -6,11 +6,10 @@ const Precipitation = ({day}) =>
     style={{
       position: "absolute",
       width: "100%",
-      borderLeft: 0,
-      borderRight: 0,
-      borderBottom: 0,
-      borderTop: `${day.precipProbability * 120 - 10}px solid #bef`,
+      left: 0,
+      right: 0,
       bottom: 0,
+      height: `${day.precipProbability * 120 - 10}px`,
       background: "#bef",
     }}
   >

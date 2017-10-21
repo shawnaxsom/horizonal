@@ -24,12 +24,23 @@ const DayForecast = ({
   hourFilter,
   setDayFilter,
 }) => {
+  const range = maximumHigh - minimumHigh;
+  const temperature = temperatureOf(day, hourFilter);
   const dayOfWeek = getDayName(daysFromToday);
+  console.warn(
+    "ZZZZ day-forecast.js",
+    "temperature, maximumHigh, range",
+    temperature,
+    maximumHigh,
+    range,
+    (maximumHigh - temperature) / range * 100,
+  );
   const dayPanelStyle = {
     position: "relative",
     padding: 0,
-    height: "300px",
-    paddingTop: `${(maximumHigh - temperatureOf(day, hourFilter)) * 7}px`,
+    height: "55%",
+    // paddingTop: `${(maximumHigh - temperatureOf(day, hourFilter)) * 7}px`,
+    // paddingTop: `${(maximumHigh - temperature) / range * 100}%`,
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
       ? {background: "#ffffcc"}
       : {}),
@@ -50,15 +61,23 @@ const DayForecast = ({
       : {borderBottom: "2px solid #555"}),
   };
 
+  const temperatureMaxTopPercent = 60;
+
   return (
     <div
-      style={{flexGrow: 1, minWidth: 70, overflow: "hidden", cursor: "pointer"}}
+      style={{
+        flexGrow: 1,
+        minWidth: 70,
+        overflow: "hidden",
+        cursor: "pointer",
+        height: "100%",
+      }}
       onClick={() =>
         dayFilter
           ? setDayFilter(null)
           : setDayFilter(moment.unix(day.time).date())}
     >
-      <CloudCover day={day} />
+      <CloudCover style={{height: "30%"}} day={day} />
 
       <DayNameHeader
         day={day}
@@ -71,6 +90,12 @@ const DayForecast = ({
       />
       <div style={dayPanelStyle}>
         <Temperature
+          style={{
+            position: "absolute",
+            top: `${(maximumHigh - temperature) /
+              range *
+              temperatureMaxTopPercent}%`,
+          }}
           averageHigh={averageHigh}
           day={day}
           hourFilter={hourFilter}

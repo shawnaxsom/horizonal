@@ -32,6 +32,7 @@ const Header = ({
         padding: 10,
         background: "#ff7",
         height: 100,
+        zIndex: 2000,
       }}
     >
       <div

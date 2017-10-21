@@ -65,7 +65,7 @@ class WeekView extends Component {
           style={{
             display: "flex",
             width: "100vw",
-            height: "calc(100%-100px)",
+            height: "calc(100vh - 100px)",
             margin: "100px auto auto auto",
             overflow: "scroll",
             padding: 0,
@@ -85,8 +85,7 @@ class WeekView extends Component {
                 averagePop={data.averagePop}
                 dayFilter={this.state.dayFilter}
                 hourFilter={this.state.hourFilter}
-                setDayFilter={dayFilter =>
-                  this.setState({dayFilter})}
+                setDayFilter={dayFilter => this.setState({dayFilter})}
               />,
             )}
         </Column>
