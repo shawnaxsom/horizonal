@@ -12,9 +12,10 @@ const Precipitation = ({day}) =>
       fontSize: "0.95em",
       height: `${day.precipProbability * 100}%`,
       minHeight: 24,
-      color: "#04c",
-      background: "#5af",
+      color: "#00a",
+      background: "#abf",
       borderRadius: "0.2em 0.2em 0 0",
+      paddingTop: 2,
     }}
   >
     <i className="wi wi-rain" />

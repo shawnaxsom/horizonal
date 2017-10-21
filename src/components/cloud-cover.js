@@ -38,7 +38,15 @@ const CloudCover = ({day, style}) => {
             position: "relative",
           }}
         >
-          <div style={{position: "absolute", bottom: 0, left: 0, right: 0}}>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              paddingBottom: 2,
+            }}
+          >
             {cloudCoverText}
             <div
               style={{
