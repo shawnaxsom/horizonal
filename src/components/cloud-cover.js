@@ -32,10 +32,9 @@ const CloudCover = ({day, style}) => {
         <div
           style={{
             ...boxStyle,
-            borderRadius: "0 0 0.25em 0.25em",
+            borderRadius: "0 0 0.2em 0.2em",
             height: `${day.cloudCover * 100}%`,
             minHeight: 24,
-            boxShadow: "2px 2px 3px 2px #ffc",
             position: "relative",
           }}
         >

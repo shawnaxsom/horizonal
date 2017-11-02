@@ -27,6 +27,8 @@ const DayForecast = ({
   const range = maximumHigh - minimumHigh;
   const temperature = temperatureOf(day, hourFilter);
   const dayOfWeek = getDayName(daysFromToday);
+  const percentDistanceFromHigh = (maximumHigh - temperature) / range;
+  const temperatureHeight = 12;
 
   const dayPanelStyle = {
     position: "relative",
@@ -82,7 +84,7 @@ const DayForecast = ({
           <Temperature
             style={{
               position: "absolute",
-              top: `${(maximumHigh - temperature) / range * 100}%`,
+              top: `calc(${percentDistanceFromHigh * 100}% - ${percentDistanceFromHigh * (temperatureHeight * 2)}px)`,
             }}
             averageHigh={averageHigh}
             day={day}
