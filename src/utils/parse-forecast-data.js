@@ -14,10 +14,14 @@ const toLocalTime = hour => {
   return hour - localTimeOffset;
 };
 
-const getForecastData = ({forecast, dayFilter, hourFilter}) => {
+const parseForecastData = ({forecast, dayFilter, hourFilter}) => {
   let dailyData = null;
 
+  let currentTemperature;
+
   if (forecast) {
+    currentTemperature = forecast.currently.temperature;
+
     if (dayFilter || hourFilter) {
       const hourlyData = forecast.hourly.data.map(hour => ({
         time: hour.time,
@@ -112,6 +116,7 @@ const getForecastData = ({forecast, dayFilter, hourFilter}) => {
       ) / dailyData.length;
 
   return {
+    currentTemperature,
     dailyData,
     averageHigh,
     minimumHigh,
@@ -121,4 +126,4 @@ const getForecastData = ({forecast, dayFilter, hourFilter}) => {
   };
 };
 
-export default getForecastData;
+export default parseForecastData;

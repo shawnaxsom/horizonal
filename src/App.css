@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Amaranth:400,700");
+
+* {
+  font-family: "Amaranth", sans-serif;
+}
+
 body {
   background-color: #e5e0e0;
   height: 100vh;
@@ -28,6 +34,10 @@ body {
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

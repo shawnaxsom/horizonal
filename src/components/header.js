@@ -2,13 +2,13 @@ import React from "react";
 
 import Slider from "rc-slider";
 
-import {Column, Field, Control, Input, Button} from "bloomer";
+import { Column, Field, Control, Input, Button } from "bloomer";
 
-// const SunIcon = require("../if_cloud_126565.png");
-const SunIcon = require("../if_cloud_126565.svg");
+const CloudIcon = require("../if_cloud_126565.svg");
 
 const Header = ({
   address,
+  data,
   getForecast,
   hourFilter,
   isLoading,
@@ -44,7 +44,7 @@ const Header = ({
         }}
       >
         <img
-          src={SunIcon}
+          src={CloudIcon}
           alt={"Horizonal"}
           style={{
             cursor: "pointer",
@@ -53,17 +53,32 @@ const Header = ({
             top: 0,
             marginLeft: 8,
             ...(isDesktop
-              ? {width: 96, marginTop: 0}
-              : {width: 32, marginTop: 12}),
+              ? { width: 96, marginTop: 0 }
+              : { width: 32, marginTop: 12 }),
           }}
         />
+        {data && data.currentTemperature ? (
+          <div
+            style={{
+              position: "absolute",
+              color: "rgb(200, 200, 200)",
+              mixBlendMode: "difference",
+              left: 18,
+              top: 12,
+              fontSize: "4.15em",
+            }}
+          >
+            {Math.round(data.currentTemperature)}
+            &#176;
+          </div>
+        ) : null}
       </div>
       <div
         style={{
           width: "100%",
           ...(isDesktop
-            ? {marginLeft: 100, paddingLeft: 10}
-            : {marginLeft: 40}),
+            ? { marginLeft: 100, paddingLeft: 10 }
+            : { marginLeft: 40 }),
         }}
       >
         <Field hasAddons>
@@ -83,13 +98,14 @@ const Header = ({
             <Button
               isColor="dark"
               isLoading={isLoading}
-              render={props =>
+              render={props => (
                 <Column
                   onClick={getForecast}
-                  style={{cursor: "pointer", padding: 0, margin: 0}}
+                  style={{ cursor: "pointer", padding: 0, margin: 0 }}
                 >
                   <span {...props}>Forecast</span>
-                </Column>}
+                </Column>
+              )}
             />
           </Control>
         </Field>
@@ -98,19 +114,19 @@ const Header = ({
         style={{
           width: "100%",
           marginTop: 8,
-          ...(isDesktop ? {marginLeft: 100} : {marginLeft: 0}),
+          ...(isDesktop ? { marginLeft: 100 } : { marginLeft: 0 }),
         }}
       >
         <Slider
           min={0}
           max={24}
           marks={{
-            0: {label: "High", style: {color: "#ffa"}},
-            8: {label: "8", style: {color: "#ddb"}},
-            12: {label: "12p", style: {color: "#ffa"}},
-            17: {label: "5", style: {color: "#ddb"}},
-            21: {label: "9", style: {color: "#ddb"}},
-            24: {label: "Low", style: {color: "#ffa"}},
+            0: { label: "High", style: { color: "#ffa" } },
+            8: { label: "8", style: { color: "#ddb" } },
+            12: { label: "12p", style: { color: "#ffa" } },
+            17: { label: "5", style: { color: "#ddb" } },
+            21: { label: "9", style: { color: "#ddb" } },
+            24: { label: "Low", style: { color: "#ffa" } },
           }}
           style={{
             height: 30,
