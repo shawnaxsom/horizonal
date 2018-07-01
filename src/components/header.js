@@ -30,11 +30,12 @@ const Header = ({
         flexWrap: "wrap",
         overflow: "visible",
         padding: 10,
-        background: "#3a3a3a",
+        background:
+          "linear-gradient(to top, #333333, #38373a, #3f3b40, #463f45, #4e424a)",
         height: 100,
         zIndex: 2000,
         boxShadow:
-          "rgba(15, 15, 0, 0.1) 0px 2px 10px 1px, rgba(15, 15, 40, 0.16) 0px -3px 80px 1px inset, rgba(15, 45, 55, 0.46) 1px 3px 8px 5px inset",
+          "rgba(15, 15, 0, 0.1) 0px 2px 10px 1px, rgba(35, 45, 40, 0.16) 0px -3px 80px 1px inset, rgba(145, 145, 155, 0.06) 1px 8px 8px 5px inset",
       }}
     >
       <div

@@ -12,7 +12,7 @@ const CloudCover = ({ day, style }) => {
       />
     );
     boxStyle = {
-      background: "#ff8",
+      background: "linear-gradient(to top, #ffd, #ff7, #ff5)",
     };
   } else if (day.cloudCover < 0.55) {
     cloudCoverText = (
@@ -22,7 +22,8 @@ const CloudCover = ({ day, style }) => {
       />
     );
     boxStyle = {
-      background: "#777",
+      background:
+        "linear-gradient(to left top, #555555, #565557, #595557, #5b5557, #5e5555)",
     };
   } else {
     cloudCoverText = (
@@ -32,7 +33,8 @@ const CloudCover = ({ day, style }) => {
       />
     );
     boxStyle = {
-      background: "#333",
+      background:
+        "linear-gradient(to left top, #333333, #343335, #363337, #383338, #3b3238)",
     };
   }
 

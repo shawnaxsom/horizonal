@@ -21,8 +21,9 @@ const DayNameHeader = ({
   return (
     <div
       style={{
-        background: "#555",
-        color: "#fff",
+        background:
+          "linear-gradient(to left top, rgb(51, 51, 51), rgb(52, 51, 53), rgb(54, 51, 55), rgb(56, 51, 56), rgb(59, 50, 56))",
+        color: "#eed",
         padding: 4,
         borderRadius: "0.1em 0.1em 0 0",
         boxShadow: "0px -3px 50px rgba(255, 250, 240, 0.5)",
