@@ -30,7 +30,7 @@ const Header = ({
         flexWrap: "wrap",
         overflow: "visible",
         padding: 10,
-        background: "#444",
+        background: "#3a3a3a",
         height: 100,
         zIndex: 2000,
         boxShadow: "0px 2px 10px 1px rgba(115,115,0,0.05)",
@@ -91,6 +91,7 @@ const Header = ({
               }}
               onKeyDown={event => event.keyCode === 13 && getForecast()}
               onChange={event => setAddress(event.target.value)}
+              style={{ boxShadow: "inset 3px 3px 2px #eed" }}
             />
           </Control>
           <Control>
@@ -102,7 +103,16 @@ const Header = ({
                   onClick={getForecast}
                   style={{ cursor: "pointer", padding: 0, margin: 0 }}
                 >
-                  <span {...props}>Forecast</span>
+                  <span
+                    style={{
+                      backgroundColor: "rgba(200, 200, 200, 0.1)",
+                      boxShadow:
+                        "inset 0px 4px 2px #444, inset -4px -4px 8px #404347",
+                    }}
+                    {...props}
+                  >
+                    Forecast
+                  </span>
                 </Column>
               )}
             />
@@ -131,7 +141,7 @@ const Header = ({
             height: 30,
             color: "red",
             width: "unset",
-            margin: "0 20px 20px",
+            margin: "2px 20px 20px",
           }}
           value={hourFilter}
           onChange={setHourFilter}

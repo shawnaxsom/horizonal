@@ -22,7 +22,7 @@ const CloudCover = ({ day, style }) => {
       />
     );
     boxStyle = {
-      background: "#888",
+      background: "#777",
     };
   } else {
     cloudCoverText = (
@@ -32,7 +32,7 @@ const CloudCover = ({ day, style }) => {
       />
     );
     boxStyle = {
-      background: "#444",
+      background: "#333",
     };
   }
 

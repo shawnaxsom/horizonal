@@ -42,18 +42,18 @@ const DayForecast = ({
     ...(day.cloudCover > 0.5 ? { background: "#f0f0f0" } : {}),
     ...(day.precipProbability > 0.5 ? { background: "#daeaff" } : {}),
     ...(!dayFilter && dayOfWeek === "Saturday"
-      ? { borderLeft: "1px solid #777" }
+      ? { borderLeft: "1px solid rgb(209, 219, 220)" }
       : {}),
     ...(!dayFilter && dayOfWeek === "Sunday"
       ? {
-          borderRight: "1px solid #777",
+          borderRight: "1px solid rgb(209, 219, 220)",
         }
       : {}),
     ...(!dayFilter && (dayOfWeek === "Saturday" || dayOfWeek === "Sunday")
       ? {
           borderBottom: "1px dashed #ccc",
         }
-      : { borderBottom: "1px solid #777" }),
+      : { borderBottom: "1px solid rgb(209, 219, 220)" }),
   };
 
   return (
