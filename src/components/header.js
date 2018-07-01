@@ -23,7 +23,6 @@ const Header = ({
       style={{
         position: "fixed",
         width: "100vw",
-        maxWidth: 1280,
         top: 0,
         left: 0,
         right: 0,
@@ -61,8 +60,7 @@ const Header = ({
           <div
             style={{
               position: "absolute",
-              color: "rgb(200, 200, 200)",
-              mixBlendMode: "difference",
+              mixBlendMode: "hard-light",
               left: 18,
               top: 12,
               fontSize: "4.15em",

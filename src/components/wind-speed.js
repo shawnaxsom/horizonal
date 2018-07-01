@@ -1,6 +1,6 @@
 import React from "react";
 
-const windSpeed = ({day}) =>
+const windSpeed = ({ day }) => (
   <div
     style={{
       borderBottom: "thin solid black",
@@ -14,12 +14,13 @@ const windSpeed = ({day}) =>
           }),
     }}
   >
-    {day.windSpeed > 7 && [
-      <i className="wi wi-strong-wind" style={{color: "#ccc"}} />,
-      <div style={{display: "inline-block"}}>
+    {day.windSpeed > 4 && [
+      <i className="wi wi-strong-wind" style={{ color: "#ccc" }} />,
+      <div style={{ display: "inline-block" }}>
         {Math.round(day.windSpeed)}
       </div>,
     ]}
-  </div>;
+  </div>
+);
 
 export default windSpeed;

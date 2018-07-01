@@ -34,9 +34,10 @@ const Precipitation = ({ data, dayFilter, hourFilter }) => {
         paddingTop: 2,
       }}
     >
-      <i className="wi wi-rain" />
+      <i className="wi wi-rain" style={{ mixBlendMode: "soft-light" }} />
       <div style={{ display: "inline-block", marginLeft: 10 }}>
-        {Math.round(data.precipProbability * 100, 0)}%
+        {Math.round(data.precipProbability * 100, 0)}
+        <span>%</span>
       </div>
     </div>
   );
