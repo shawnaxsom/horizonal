@@ -6,10 +6,7 @@ const CloudCover = ({ day, style }) => {
 
   if (day.cloudCover < 0.2) {
     cloudCoverText = (
-      <i
-        style={{ color: "black", mixBlendMode: "soft-light" }}
-        className="wi wi-day-sunny"
-      />
+      <i style={{ color: "#cca" }} className="wi wi-day-sunny" />
     );
     boxStyle = {
       background: "linear-gradient(to top, #ffd, #ff7, #ff5)",
@@ -72,7 +69,7 @@ const CloudCover = ({ day, style }) => {
                 marginLeft: 10,
                 ...(day.cloudCover > 0.2
                   ? { color: "#ffc" }
-                  : { color: "#444" }),
+                  : { color: "#774" }),
                 ...(day.cloudCover > 0.55 ? { color: "#ffa" } : {}),
               }}
             >
