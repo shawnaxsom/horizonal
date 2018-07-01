@@ -24,9 +24,10 @@ const DayNameHeader = ({
         background: "#555",
         color: "#fff",
         padding: 4,
+        boxShadow: "0px -3px 50px rgba(255, 250, 240, 0.5)",
         fontSize: "0.9em",
         ...(comfortIndex > averageComfortIndex + 1
-          ? {background: "#fff", color: "#444"}
+          ? { background: "#fff", color: "#444" }
           : {}),
       }}
     >
@@ -35,7 +36,10 @@ const DayNameHeader = ({
             .unix(day.time)
             .format("a")
             .substr(0, 1)}`
-        : moment.unix(day.time).format("ddd").toUpperCase()}{" "}
+        : moment
+            .unix(day.time)
+            .format("ddd")
+            .toUpperCase()}{" "}
       {Math.round(comfortIndex)}
     </div>
   );

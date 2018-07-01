@@ -33,6 +33,7 @@ const Header = ({
         background: "#444",
         height: 100,
         zIndex: 2000,
+        boxShadow: "0px 2px 10px 1px rgba(115,115,0,0.05)",
       }}
     >
       <div
