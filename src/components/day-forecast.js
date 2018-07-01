@@ -11,7 +11,9 @@ import WindSpeed from "components/wind-speed";
 import temperatureOf from "utils/temperature-of";
 
 const getDayName = daysFromToday =>
-  moment().add(daysFromToday, "days").format("dddd");
+  moment()
+    .add(daysFromToday, "days")
+    .format("dddd");
 
 const DayForecast = ({
   day,
@@ -35,12 +37,12 @@ const DayForecast = ({
     padding: 0,
     height: "calc(70% - 29px - 28px)",
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
-      ? {background: "#ffffcc"}
-      : {background: "#ffffff"}),
-    ...(day.cloudCover > 0.5 ? {background: "#f0f0f0"} : {}),
-    ...(day.precipProbability > 0.5 ? {background: "#daeaff"} : {}),
+      ? { background: "#ffffcc" }
+      : { background: "#ffffff" }),
+    ...(day.cloudCover > 0.5 ? { background: "#f0f0f0" } : {}),
+    ...(day.precipProbability > 0.5 ? { background: "#daeaff" } : {}),
     ...(!dayFilter && dayOfWeek === "Saturday"
-      ? {borderLeft: "2px solid #555"}
+      ? { borderLeft: "2px solid #555" }
       : {}),
     ...(!dayFilter && dayOfWeek === "Sunday"
       ? {
@@ -51,7 +53,7 @@ const DayForecast = ({
       ? {
           borderBottom: "2px dashed #ccc",
         }
-      : {borderBottom: "2px solid #555"}),
+      : { borderBottom: "2px solid #555" }),
   };
 
   return (
@@ -66,9 +68,10 @@ const DayForecast = ({
       onClick={() =>
         dayFilter
           ? setDayFilter(null)
-          : setDayFilter(moment.unix(day.time).date())}
+          : setDayFilter(moment.unix(day.time).date())
+      }
     >
-      <CloudCover style={{height: "30%"}} day={day} />
+      <CloudCover style={{ height: "30%" }} day={day} />
 
       <DayNameHeader
         day={day}
@@ -80,11 +83,13 @@ const DayForecast = ({
         hourFilter={hourFilter}
       />
       <div style={dayPanelStyle}>
-        <div style={{position: "relative", height: "50%"}}>
+        <div style={{ position: "relative", height: "50%" }}>
           <Temperature
             style={{
               position: "absolute",
-              top: `calc(${percentDistanceFromHigh * 100}% - ${percentDistanceFromHigh * (temperatureHeight * 2)}px)`,
+              top: `calc(${percentDistanceFromHigh *
+                100}% - ${percentDistanceFromHigh *
+                (temperatureHeight * 2)}px)`,
             }}
             averageHigh={averageHigh}
             day={day}
@@ -98,7 +103,7 @@ const DayForecast = ({
             height: "50%",
           }}
         >
-          <Precipitation day={day} />
+          <Precipitation data={day} isHourly={!!dayFilter} />
         </div>
       </div>
       <WindSpeed day={day} />
