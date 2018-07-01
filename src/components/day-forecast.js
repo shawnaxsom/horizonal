@@ -40,7 +40,9 @@ const DayForecast = ({
       ? { background: "#ffffcc" }
       : { background: "#ffffff" }),
     ...(day.cloudCover > 0.5 ? { background: "#f0f0f0" } : {}),
-    ...(day.precipProbability > 0.5 ? { background: "#daeaff" } : {}),
+    ...(day.precipProbability > 0.5
+      ? { background: "rgb(237, 244, 255)" }
+      : {}),
     ...(!dayFilter && dayOfWeek === "Saturday"
       ? { borderLeft: "1px solid rgb(209, 219, 220)" }
       : {}),

@@ -24,6 +24,7 @@ const DayNameHeader = ({
         background: "#555",
         color: "#fff",
         padding: 4,
+        borderRadius: "0.1em 0.1em 0 0",
         boxShadow: "0px -3px 50px rgba(255, 250, 240, 0.5)",
         fontSize: "0.9em",
         ...(comfortIndex > averageComfortIndex + 1
