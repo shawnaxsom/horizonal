@@ -1,6 +1,8 @@
 import React from "react";
 
-const Precipitation = ({ data, isHourly }) => {
+const Precipitation = ({ data, dayFilter, hourFilter }) => {
+  const isHourly = !!dayFilter || !!hourFilter;
+
   const minFilter = isHourly ? 0.05 : 0.1;
   if (data.precipProbability < minFilter) {
     return null;

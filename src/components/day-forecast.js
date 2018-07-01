@@ -103,7 +103,11 @@ const DayForecast = ({
             height: "50%",
           }}
         >
-          <Precipitation data={day} isHourly={!!dayFilter} />
+          <Precipitation
+            data={day}
+            dayFilter={dayFilter}
+            hourFilter={hourFilter}
+          />
         </div>
       </div>
       <WindSpeed day={day} />
