@@ -5,6 +5,7 @@ cache:
   directories:
     - node_modules
 script:
-    - bash ./push.sh
+    - pip install awscli --upgrade --user
     - npm install -g serverless
+    - bash ./push.sh
     - sls deploy
