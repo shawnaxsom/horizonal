@@ -1,0 +1,2 @@
+cd lambda
+sls deploy

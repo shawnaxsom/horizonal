@@ -7,5 +7,5 @@ cache:
 script:
     - pip install awscli --upgrade --user
     - npm install -g serverless
-    - bash ./push.sh
-    - sls deploy
+    - bash ./deploy_client.sh
+    - bash ./deploy_lambda.sh
