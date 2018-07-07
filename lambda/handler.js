@@ -17,7 +17,9 @@ const darksky = new DarkSky({
 });
 
 module.exports.hello = function(event, context, callback) {
+  console.log("event, context", event, context);
   geocode(event.queryStringParameters.address, function(err, response) {
+    console.log("response", response);
     const results =
       response.json.results &&
       response.json.results.length > 0 &&
@@ -49,3 +51,4 @@ module.exports.hello = function(event, context, callback) {
     });
   });
 };
+
