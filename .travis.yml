@@ -4,6 +4,7 @@ node_js:
 cache:
   directories:
     - node_modules
+    - lambda/node_modules
 script:
     - pip install awscli --upgrade --user
     - npm install -g serverless
