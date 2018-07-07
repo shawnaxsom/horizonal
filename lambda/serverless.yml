@@ -20,9 +20,9 @@ service: lambda
 provider:
   name: aws
   runtime: nodejs6.10
-  # environment:
-  #   DARKSKY_SECRET_ACCESS_KEY: ${file(./secrets.yml):darkskySecretAccessKey}
-  #   GOOGLE_MAPS_SECRET_ACCESS_KEY: ${file(./secrets.yml):googleMapsSecretAccessKey}
+  environment:
+    DARKSKY_SECRET_ACCESS_KEY: ${env:DARKSKY_SECRET_ACCESS_KEY}
+    GOOGLE_MAPS_SECRET_ACCESS_KEY: ${env:GOOGLE_MAPS_SECRET_ACCESS_KEY}
 
 # you can overwrite defaults here
 #  stage: dev
