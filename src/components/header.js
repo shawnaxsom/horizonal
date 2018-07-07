@@ -109,7 +109,7 @@ const Header = ({
                     style={{
                       backgroundColor: "rgba(200, 200, 200, 0.1)",
                       boxShadow:
-                        "inset 0px 4px 2px #444, inset -4px -4px 8px #404347",
+                        "rgba(68, 68, 68, 0.3) 0px 4px 2px inset, rgba(64, 67, 71, 0.35) -4px -4px 8px inset",
                     }}
                     {...props}
                   >
