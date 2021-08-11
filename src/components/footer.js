@@ -1,25 +1,45 @@
 import React from "react";
 
-const Footer = () =>
-  <footer
-    style={{
-      position: "fixed",
-      bottom: 0,
-      right: 0,
-      margin: 4,
-      color: "#ccc",
-      fontSize: "0.7em",
-    }}
-  >
-    Powered by{" "}
-    <a
-      href="https://darksky.net"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{textDecoration: "none", color: "#ccf"}}
+const Footer = ({setUnits, units}) => {
+  const changeUnits = () => {
+    if (units === "Fahrenheit") {
+      setUnits("Celsius");
+    } else {
+      setUnits("Fahrenheit");
+    }
+  }
+
+  return ( 
+    <footer
+      style={{
+        position: "fixed",
+        display: "flex",
+        justifyContent: "space-between",
+        bottom: ".25em",
+        right: "1em",
+        left: "1em",
+        color: "#888",
+        fontSize: "0.7em",
+      }}
     >
-      Dark Sky
-    </a>
-  </footer>;
+      <button style={{
+        border: "none",
+       }} onClick={changeUnits}>
+         {units}
+      </button>
+      <div>
+        Powered by{" "}
+        <a
+          href="https://darksky.net"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{textDecoration: "none", color: "#88a"}}
+        >
+          Dark Sky
+        </a>
+      </div>
+    </footer>
+  );
+}
 
 export default Footer;

@@ -3,6 +3,7 @@ import React from "react";
 import Slider from "rc-slider";
 
 import { Column, Field, Control, Input, Button } from "bloomer";
+import withLocalStorageUnits from "../utils/with-local-storage-units";
 
 const CloudIcon = require("../if_cloud_126565.svg");
 
@@ -69,7 +70,7 @@ const Header = ({
               fontSize: "4.15em",
             }}
           >
-            {Math.round(data.currentTemperature)}
+            {Math.round(withLocalStorageUnits(data.currentTemperature))}
             &#176;
           </div>
         ) : null}

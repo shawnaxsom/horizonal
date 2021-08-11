@@ -22,6 +22,7 @@ class WeekView extends Component {
       address: "Westfield, IN",
       dayFilter: null,
       hourFilter: null,
+      units: localStorage.getItem("units") || "Fahrenheit",
       forecast: useMockForecast ? mockForecast : null,
     };
   }
@@ -32,7 +33,7 @@ class WeekView extends Component {
     const response = await fetch(
       `https://xtzt76pisd.execute-api.us-east-1.amazonaws.com/dev/forecast?address=${encodeURI(
         this.state.address,
-      )}`,
+      )}&`,
     );
 
     response.json().then(data => {
@@ -48,6 +49,12 @@ class WeekView extends Component {
 
   render() {
     const data = parseForecastData(this.state);
+    const setUnits = (units) => {
+      localStorage.setItem("units", units);
+      this.setState({
+        units,
+      });
+    }
 
     return [
       <Columns className="App" style={{ margin: 0, padding: 0 }}>
@@ -92,7 +99,7 @@ class WeekView extends Component {
             ))}
         </Column>
       </Columns>,
-      <Footer />,
+      <Footer setUnits={setUnits} units={this.state.units} />,
     ];
   }
 }
