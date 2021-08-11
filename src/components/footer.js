@@ -24,6 +24,7 @@ const Footer = ({setUnits, units}) => {
     >
       <button style={{
         border: "none",
+        cursor: "pointer",
        }} onClick={changeUnits}>
          {units}
       </button>

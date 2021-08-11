@@ -19,7 +19,7 @@ class WeekView extends Component {
     super(props);
 
     this.state = {
-      address: "Westfield, IN",
+      address: localStorage.getItem("address") || "Westfield, IN",
       dayFilter: null,
       hourFilter: null,
       units: localStorage.getItem("units") || "Fahrenheit",
@@ -49,6 +49,12 @@ class WeekView extends Component {
 
   render() {
     const data = parseForecastData(this.state);
+    const setAddress = (address) => {
+      localStorage.setItem("address", address);
+      this.setState({
+        address,
+      });
+    }
     const setUnits = (units) => {
       localStorage.setItem("units", units);
       this.setState({
@@ -64,7 +70,7 @@ class WeekView extends Component {
           getForecast={this.getForecast}
           hourFilter={this.state.hourFilter}
           isLoading={this.state.isLoading}
-          setAddress={address => this.setState({ address })}
+          setAddress={setAddress}
           setDayFilter={dayFilter => this.setState({ dayFilter })}
           setHourFilter={hourFilter => this.setState({ hourFilter })}
         />
