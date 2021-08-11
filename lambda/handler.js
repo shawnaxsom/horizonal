@@ -43,7 +43,7 @@ module.exports.hello = function(event, context, callback) {
       callback(null, {
         statusCode: 200,
         headers: {
-          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+          "Access-Control-Allow-Origin" : "http://www.horizonal.us",
           "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
         },
         body: JSON.stringify(data),
