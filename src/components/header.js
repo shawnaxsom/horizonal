@@ -47,7 +47,7 @@ const Header = ({
           setHourFilter(null);
         }}
       >
-        {data && data.currently && data.currently.cloudCover > 0.5 ? <img
+        {data && data.currently && data.currently.cloudCover > 0.6 ? <img
           src={CloudIcon}
           alt={"Horizonal"}
           style={{
@@ -83,7 +83,7 @@ const Header = ({
               left: 18,
               top: 12,
               fontSize: isDesktop ? "4.15em" : "1.15em",
-              color: data && data.currently && data.currently.cloudCover > 0.5 ? "#0ff" : "#ff0"
+              color: data && data.currently && data.currently.cloudCover > 0.6 ? "#0ff" : "#ff0"
             }}
           >
             {Math.round(withLocalStorageUnits(data.currentTemperature))}
