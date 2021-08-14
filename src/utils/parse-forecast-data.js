@@ -91,7 +91,7 @@ const parseForecastData = ({forecast, dayFilter, hourFilter}) => {
   const minimumHigh = !dailyData
     ? 0
     : dailyData.reduce(
-        (prev, data) => Math.min(prev, temperatureOf(data, hourFilter)),
+        (prev, data) => Math.min(Math.min(prev, temperatureOf(data, hourFilter)), forecast.currently.temperature),
         999,
       );
 
@@ -117,6 +117,7 @@ const parseForecastData = ({forecast, dayFilter, hourFilter}) => {
 
   return {
     currentTemperature,
+    currently: forecast && forecast.currently,
     dailyData,
     averageHigh,
     minimumHigh,

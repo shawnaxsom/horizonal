@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 import "rc-slider/assets/index.css";
 
@@ -86,6 +87,26 @@ class WeekView extends Component {
             padding: 0,
           }}
         >
+          {this.state.forecast &&
+            data.dailyData &&
+            data.currently &&
+            this.state.dayFilter == null &&
+                <DayForecast
+                  key={0}
+                  day={data.currently}
+                  daysFromToday={0}
+                  minimumHigh={data.minimumHigh}
+                  maximumHigh={data.maximumHigh}
+                  averageComfortIndex={data.averageComfortIndex}
+                  averageHigh={data.averageHigh}
+                  averagePop={data.averagePop}
+                  dayFilter={1}
+                  hourFilter={0}
+                  setDayFilter={dayFilter => this.setState({ dayFilter: moment.unix(data.currently.time).date() })}
+                  isNow={true}
+                />
+          }
+
           {this.state.forecast &&
             data.dailyData &&
             data.dailyData.map((day, key) => (

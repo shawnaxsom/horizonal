@@ -18,6 +18,7 @@ const getDayName = daysFromToday =>
 const DayForecast = ({
   day,
   daysFromToday,
+  isNow,
   minimumHigh,
   maximumHigh,
   averageComfortIndex,
@@ -34,7 +35,7 @@ const DayForecast = ({
 
   const dayPanelStyle = {
     position: "relative",
-    padding: 0,
+    padding: 1,
     height: "calc(70% - 29px - 28px)",
     ...(day.precipProbability < 0.15 && day.cloudCover < 0.15
       ? { background: "#ffffcc" }
@@ -44,11 +45,11 @@ const DayForecast = ({
       ? { background: "rgba(242, 248, 255)" }
       : {}),
     ...(!dayFilter && dayOfWeek === "Saturday"
-      ? { borderLeft: "1px solid rgb(209, 219, 220)" }
+      ? { borderLeft: "1px solid rgb(109, 119, 120)" }
       : {}),
     ...(!dayFilter && dayOfWeek === "Sunday"
       ? {
-          borderRight: "1px solid rgb(209, 219, 220)",
+          borderRight: "1px solid rgb(109, 119, 120)",
         }
       : {}),
     ...(!dayFilter && (dayOfWeek === "Saturday" || dayOfWeek === "Sunday")
@@ -56,6 +57,12 @@ const DayForecast = ({
           borderBottom: "1px dashed #ccc",
         }
       : { borderBottom: "1px solid rgb(209, 219, 220)" }),
+    ...(isNow
+      ? {
+          zIndex:2222,
+          padding: 4
+        }
+      : {}),
   };
 
   return (
@@ -83,6 +90,7 @@ const DayForecast = ({
         maximumHigh={maximumHigh}
         dayFilter={dayFilter}
         hourFilter={hourFilter}
+        isNow={isNow}
       />
       <div style={dayPanelStyle}>
         <div style={{ position: "relative", height: "50%" }}>

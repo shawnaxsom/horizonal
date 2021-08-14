@@ -5,7 +5,8 @@ import Slider from "rc-slider";
 import { Column, Field, Control, Input, Button } from "bloomer";
 import withLocalStorageUnits from "../utils/with-local-storage-units";
 
-const CloudIcon = require("../if_cloud_126565.svg");
+const CloudIcon = require("../reshot-icon-sun-cloud-Z68ADE74PR.svg");
+const SunIcon = require("../reshot-icon-sun-energy-WL9MVB4TYD.svg");
 
 const Header = ({
   address,
@@ -46,8 +47,22 @@ const Header = ({
           setHourFilter(null);
         }}
       >
-        <img
+        {data && data.currently && data.currently.cloudCover > 0.5 ? <img
           src={CloudIcon}
+          alt={"Horizonal"}
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            marginLeft: 8,
+            opacity: 0.7,
+            ...(isDesktop
+              ? { width: 96, marginTop: 0 }
+              : { width: 32, marginTop: 12 }),
+          }}
+        /> : data && data.currently ? <img
+          src={SunIcon}
           alt={"Horizonal"}
           style={{
             cursor: "pointer",
@@ -59,7 +74,7 @@ const Header = ({
               ? { width: 96, marginTop: 0 }
               : { width: 32, marginTop: 12 }),
           }}
-        />
+        /> : null}
         {data && data.currentTemperature ? (
           <div
             style={{
@@ -67,7 +82,8 @@ const Header = ({
               mixBlendMode: "hard-light",
               left: 18,
               top: 12,
-              fontSize: "4.15em",
+              fontSize: isDesktop ? "4.15em" : "1.15em",
+              color: data && data.currently && data.currently.cloudCover > 0.5 ? "#0ff" : "#ff0"
             }}
           >
             {Math.round(withLocalStorageUnits(data.currentTemperature))}
